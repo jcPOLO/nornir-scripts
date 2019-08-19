@@ -1,0 +1,44 @@
+#
+ info-center loghost 172.27.229.1
+ info-center logbuffer channel 2
+ info-center timestamp debugging format-date
+ info-center timestamp log format-date
+#
+ lldp enable
+#
+ vlan 1099
+  description GestRED
+#
+{% for interface in port %}
+interface {{ interface }}
+ port trunk allow-pass vlan 1099
+ quit
+{% endfor %}
+#
+interface Vlanif1099
+ ip address {{ nr.host['ip'] }} {{ nr.host['mask'] }}
+#
+ntp-service unicast-server 188.244.82.3 preference
+ntp-service unicast-server 188.244.82.19
+#
+aaa
+ local-user comunicaciones password cipher 2018.%Lote7
+ local-user comunicaciones privilege level 15
+ local-user comunicaciones service-type telnet ssh
+ local-user lote1 password cipher T3l3f0n1c4
+ local-user lote1 privilege level 15
+ local-user lote1 service-type ssh 
+#
+snmp-agent community write C0mun1c4c10n3s acl 2060
+#
+ ssh user comunicaciones
+ ssh user comunicaciones authentication-type password
+ ssh user comunicaciones service-type stelnet
+#
+user-interface con 0
+ authentication-mode password
+ set authentication password cipher 2018.%Lote7
+#
+acl number 2060                           
+ description Equipos con acceso SNMP rw   
+ rule 10 permit source 192.168.7.121 0    
