@@ -36,6 +36,6 @@ ios_telnet:
   data:
     mask: '255.255.255.240'
 
-pruebas:
+test:
   data:
     mask: '255.255.255.240'

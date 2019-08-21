@@ -1,14 +1,25 @@
 ---
-# PRUEBAS_CCM10:
-#   hostname: 1.43.5.233
-#   platform: huawei
-#   username: unit
-#   password: l2012
-#   data:
-#     site: pruebas
-#     ip: '1.1.1.2'
-#   groups:
-#     - pruebas
+PRUEBAS_CCM10:
+  hostname: 1.43.5.233
+  platform: huawei
+  username: unit
+  password: l2012
+  data:
+    site: test
+    ip: '1.1.1.2'
+  groups:
+    - huawei
+    - test
+
+ZAZAR0529ASTPL00003:
+  hostname: 1.43.5.232
+  platform: ios
+  data:
+    site: test
+    ip: '1.1.1.3'
+  groups:
+    - ios
+    - test
 
 host1:
   hostname: 192.168.204.217 

@@ -1,0 +1,159 @@
+
+ZAZAR0529ASTPL00003#
+ZAZAR0529ASTPL00003#terminal length 0
+ZAZAR0529ASTPL00003#terminal width 511
+ZAZAR0529ASTPL00003#
+ZAZAR0529ASTPL00003#show interfaces status
+
+Port      Name               Status       Vlan       Duplex  Speed Type
+Fa0/1     *** Puerto acceso  connected    170        a-full  a-100 10/100BaseTX
+Fa0/2     ** Puerto acceso A connected    50         a-full  a-100 10/100BaseTX
+Fa0/3     *** Puerto acceso  notconnect   170          auto   auto 10/100BaseTX
+Fa0/4     *** Puerto acceso  connected    163        a-full  a-100 10/100BaseTX
+Fa0/5     *** Puerto acceso  connected    50         a-full  a-100 10/100BaseTX
+Fa0/6     *** Puerto acceso  connected    163        a-full  a-100 10/100BaseTX
+Fa0/7     ** Puerto acceso B connected    170        a-full  a-100 10/100BaseTX
+Fa0/8     PECERA Videofonfer notconnect   1107         auto   auto 10/100BaseTX
+Fa0/9     *** Puerto acceso  connected    170        a-full  a-100 10/100BaseTX
+Fa0/10    *** Puerto acceso  connected    163        a-full  a-100 10/100BaseTX
+Fa0/11    *** Puerto acceso  connected    170        a-full  a-100 10/100BaseTX
+Fa0/12    PUERTO PRUEBAS RAU notconnect   1107         auto   auto 10/100BaseTX
+Fa0/13    *** Puerto acceso  connected    170        a-full  a-100 10/100BaseTX
+Fa0/14    AP WIFI_AST2       connected    50         a-full  a-100 10/100BaseTX
+Fa0/15    *** Puerto acceso  connected    163        a-full  a-100 10/100BaseTX
+Fa0/16    *** Puerto acceso  connected    163        a-full  a-100 10/100BaseTX
+Fa0/17    *** Puerto acceso  connected    170        a-full  a-100 10/100BaseTX
+Fa0/18    PECERA Datos/ToIP  connected    50         a-full  a-100 10/100BaseTX
+Fa0/19    *** Puerto acceso  connected    170        a-full  a-100 10/100BaseTX
+Fa0/20    *** Puerto acceso  connected    163        a-full  a-100 10/100BaseTX
+Fa0/21    *** Puerto acceso  notconnect   163          auto   auto 10/100BaseTX
+Fa0/22    ** Puerto acceso A connected    50         a-full  a-100 10/100BaseTX
+Fa0/23    *** Puerto acceso  notconnect   163          auto   auto 10/100BaseTX
+Fa0/24    *** Puerto acceso  connected    163        a-full  a-100 10/100BaseTX
+Fa0/25    *** Puerto acceso  notconnect   170          auto   auto 10/100BaseTX
+Fa0/26    *** Puerto acceso  connected    163        a-full  a-100 10/100BaseTX
+Fa0/27    *** Puerto acceso  notconnect   163          auto   auto 10/100BaseTX
+Fa0/28    *** Puerto acceso  connected    163        a-full  a-100 10/100BaseTX
+Fa0/29    *** Puerto acceso  connected    170        a-full  a-100 10/100BaseTX
+Fa0/30                       connected    1107       a-full  a-100 10/100BaseTX
+Fa0/31    *** Puerto acceso  connected    170        a-full  a-100 10/100BaseTX
+Fa0/32    *** Puerto acceso  connected    163        a-full  a-100 10/100BaseTX
+Fa0/33    *** Puerto acceso  connected    170        a-full  a-100 10/100BaseTX
+Fa0/34    ** Puerto acceso A connected    50         a-full  a-100 10/100BaseTX
+Fa0/35    *** Puerto acceso  notconnect   170          auto   auto 10/100BaseTX
+Fa0/36    *** Puerto acceso  connected    170        a-full  a-100 10/100BaseTX
+Fa0/37    *** Puerto acceso  connected    170        a-full  a-100 10/100BaseTX
+Fa0/38    *** Puerto acceso  notconnect   170          auto   auto 10/100BaseTX
+Fa0/39    *** Puerto acceso  connected    170        a-full  a-100 10/100BaseTX
+Fa0/40    *** Puerto acceso  connected    163        a-full  a-100 10/100BaseTX
+Fa0/41    *** Puerto acceso  connected    170        a-full  a-100 10/100BaseTX
+Fa0/42    *** Puerto acceso  notconnect   170          auto   auto 10/100BaseTX
+Fa0/43    *** Puerto acceso  connected    170        a-full  a-100 10/100BaseTX
+Fa0/44    *** Puerto acceso  connected    163        a-full  a-100 10/100BaseTX
+Fa0/45    *** Puerto acceso  connected    170        a-full  a-100 10/100BaseTX
+Fa0/46    *** Puerto acceso  connected    163        a-full  a-100 10/100BaseTX
+Fa0/47    Impresora          connected    50         a-full  a-100 10/100BaseTX
+Fa0/48    *** Puerto acceso  notconnect   50           auto   auto 10/100BaseTX
+Gi0/1     Gi0/1   Enlace a Z connected    trunk      a-full a-1000 1000BaseSX SFP
+Gi0/2                        notconnect   1            auto   auto Not Present
+Gi0/3     Gi0/3   Prueba Nor connected    trunk      a-full a-1000 10/100/1000BaseTX
+Gi0/4     *** Puerto acceso  notconnect   170          auto   auto 10/100/1000BaseTX
+ZAZAR0529ASTPL00003#
+ZAZAR0529ASTPL00003#show interface Gi0/1
+GigabitEthernet0/1 is up, line protocol is up (connected) 
+  Hardware is Gigabit Ethernet, address is 9c57.ad0c.51b1 (bia 9c57.ad0c.51b1)
+  Description: Gi0/1   Enlace a ZAZAR0529ASTPL00001
+  MTU 1500 bytes, BW 1000000 Kbit/sec, DLY 10 usec, 
+     reliability 255/255, txload 1/255, rxload 2/255
+  Encapsulation ARPA, loopback not set
+  Keepalive not set
+  Full-duplex, 1000Mb/s, link type is auto, media type is 1000BaseSX SFP
+  input flow-control is off, output flow-control is unsupported 
+  ARP type: ARPA, ARP Timeout 04:00:00
+  Last input 00:00:00, output 00:00:00, output hang never
+  Last clearing of "show interface" counters never
+  Input queue: 0/75/0/0 (size/max/drops/flushes); Total output drops: 0
+  Queueing strategy: fifo
+  Output queue: 0/40 (size/max)
+  5 minute input rate 10964000 bits/sec, 3140 packets/sec
+  5 minute output rate 898000 bits/sec, 785 packets/sec
+     18180833107 packets input, 8985430800742 bytes, 0 no buffer
+     Received 186470781 broadcasts (125857218 multicasts)
+     0 runts, 0 giants, 0 throttles
+     0 input errors, 0 CRC, 0 frame, 0 overrun, 0 ignored
+     0 watchdog, 125857218 multicast, 0 pause input
+     0 input packets with dribble condition detected
+     10298451195 packets output, 3868505451438 bytes, 0 underruns
+     0 output errors, 0 collisions, 1 interface resets
+     0 unknown protocol drops
+     0 babbles, 0 late collision, 0 deferred
+     0 lost carrier, 0 no carrier, 0 pause output
+     0 output buffer failures, 0 output buffers swapped out
+ZAZAR0529ASTPL00003#
+ZAZAR0529ASTPL00003#show interface Gi0/3
+GigabitEthernet0/3 is up, line protocol is up (connected) 
+  Hardware is Gigabit Ethernet, address is 9c57.ad0c.51b3 (bia 9c57.ad0c.51b3)
+  Description: Gi0/3   Prueba Nornir
+  MTU 1500 bytes, BW 1000000 Kbit/sec, DLY 10 usec, 
+     reliability 255/255, txload 1/255, rxload 1/255
+  Encapsulation ARPA, loopback not set
+  Keepalive set (10 sec)
+  Full-duplex, 1000Mb/s, media type is 10/100/1000BaseTX
+  input flow-control is off, output flow-control is unsupported 
+  ARP type: ARPA, ARP Timeout 04:00:00
+  Last input 00:00:21, output 00:00:00, output hang never
+  Last clearing of "show interface" counters never
+  Input queue: 0/75/0/0 (size/max/drops/flushes); Total output drops: 0
+  Queueing strategy: fifo
+  Output queue: 0/40 (size/max)
+  5 minute input rate 1000 bits/sec, 1 packets/sec
+  5 minute output rate 39000 bits/sec, 19 packets/sec
+     48301 packets input, 15227840 bytes, 0 no buffer
+     Received 27799 broadcasts (25883 multicasts)
+     0 runts, 0 giants, 0 throttles
+     0 input errors, 0 CRC, 0 frame, 0 overrun, 0 ignored
+     0 watchdog, 25883 multicast, 0 pause input
+     0 input packets with dribble condition detected
+     9346778 packets output, 1727621908 bytes, 0 underruns
+     0 output errors, 0 collisions, 2 interface resets
+     0 unknown protocol drops
+     0 babbles, 0 late collision, 0 deferred
+     0 lost carrier, 0 no carrier, 0 pause output
+     0 output buffer failures, 0 output buffers swapped out
+ZAZAR0529ASTPL00003#
+ZAZAR0529ASTPL00003#
+ZAZAR0529ASTPL00003#config term
+Enter configuration commands, one per line.  End with CNTL/Z.
+ZAZAR0529ASTPL00003(config)#
+ZAZAR0529ASTPL00003(config)#!
+ZAZAR0529ASTPL00003(config)#ip access-list standard 60
+ZAZAR0529ASTPL00003(config-std-nacl)# remark Equipos con acceso SNMP rw
+ZAZAR0529ASTPL00003(config-std-nacl)# permit host 192.168.7.121
+ZAZAR0529ASTPL00003(config-std-nacl)# deny any
+ZAZAR0529ASTPL00003(config-std-nacl)#!
+ZAZAR0529ASTPL00003(config-std-nacl)#snmp-server community C0mun1c4c10n3s rw 60
+ZAZAR0529ASTPL00003(config)#!
+ZAZAR0529ASTPL00003(config)#tacacs-server timeout 2
+ZAZAR0529ASTPL00003(config)#!
+ZAZAR0529ASTPL00003(config)#enable secret 2018.%Lote7
+ZAZAR0529ASTPL00003(config)#!
+ZAZAR0529ASTPL00003(config)#username comunicaciones privilege 15 secret 2018.%Lote7
+ZAZAR0529ASTPL00003(config)#username lote1 privilege 15 secret T3l3f0n1c4
+ZAZAR0529ASTPL00003(config)#!
+ZAZAR0529ASTPL00003(config)#vlan 1099
+ZAZAR0529ASTPL00003(config-vlan)# name GestRED
+ZAZAR0529ASTPL00003(config-vlan)#!
+ZAZAR0529ASTPL00003(config-vlan)#interface Gi0/1
+ZAZAR0529ASTPL00003(config-if)# description Gi0/1 Enlace a ZAZAR0529ASTPL00001
+ZAZAR0529ASTPL00003(config-if)# switchport trunk allowed vlan add 1099
+ZAZAR0529ASTPL00003(config-if)#interface Gi0/3
+ZAZAR0529ASTPL00003(config-if)# description Gi0/3 Prueba Nornir
+ZAZAR0529ASTPL00003(config-if)# switchport trunk allowed vlan add 1099
+ZAZAR0529ASTPL00003(config-if)#!
+ZAZAR0529ASTPL00003(config-if)#int vlan1099
+ZAZAR0529ASTPL00003(config-if)# description CONFIGURADO CON NORNIR 5.0
+ZAZAR0529ASTPL00003(config-if)# ip address 1.1.1.3 255.255.255.240
+ZAZAR0529ASTPL00003(config-if)#end
+ZAZAR0529ASTPL00003#!
+ZAZAR0529ASTPL00003#
+ZAZAR0529ASTPL00003#
