@@ -16,13 +16,14 @@ username lote1 privilege 15 secret T3l3f0n1c4
 vlan 1099
  name GestRED
 !
-{% for interface in trunks %}
-interface {{ interface }}
- description {{ interface }}
+{% for interface in interfaces %}
+interface {{ interface['interface'] }}
+ description {{ interface['interface'] }} {{ interface['description'] }}
  switchport trunk allowed vlan add 1099
 {% endfor %}
 !
 int vlan1099
+ description CONFIGURADO CON NORNIR 5.0
  ip address {{ nr.host['ip'] }} {{ nr.host['mask'] }}
 end
 !
