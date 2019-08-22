@@ -1,28 +1,14 @@
 !
-ip access-list standard 60
- remark Equipos con acceso SNMP rw
- permit host 192.168.7.121
- deny any
-!
-snmp-server community C0mun1c4c10n3s rw 60
-!
-tacacs-server timeout 2
-!
-enable secret 2018.%Lote7
-!
-username comunicaciones privilege 15 secret 2018.%Lote7
-username lote1 privilege 15 secret T3l3f0n1c4
-!
-vlan 1099
+vlan {{ ini_vars['management_vlan_id'] }}
  name GestRED
 !
 {% for interface in interfaces %}
 interface {{ interface['interface'] }}
  description {{ interface['interface'] }} {{ interface['description'] }}
- switchport trunk allowed vlan add 1099
+ switchport trunk allowed vlan add {{ ini_vars['management_vlan_id'] }}
 {% endfor %}
 !
-int vlan1099
+int vlan{{ ini_vars['management_vlan_id'] }}
  description CONFIGURADO CON NORNIR 5.0
  ip address {{ nr.host['ip'] }} {{ nr.host['mask'] }}
 end

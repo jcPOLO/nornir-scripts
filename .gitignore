@@ -2,5 +2,7 @@
 nornir.log
 venv
 __pycache__/
+outputs/
 *-output.txt
 backup/
+.global.ini

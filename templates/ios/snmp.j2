@@ -1,8 +1,8 @@
 !
 ip access-list standard 60
  remark Equipos con acceso SNMP rw
- permit host 192.168.7.121
+ permit host {{ ini_vars['snmp_ip'] }}
  deny any
 !
-snmp-server community C0mun1c4c10n3s rw 60
+snmp-server community {{ ini_vars['snmp_w_password'] }} rw 60
 !
