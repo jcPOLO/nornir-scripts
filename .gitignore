@@ -2,3 +2,5 @@
 nornir.log
 venv
 __pycache__/
+*-output.txt
+backup/

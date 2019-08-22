@@ -1,135 +1,91 @@
 ---
-PRUEBAS_CCM10:
-  hostname: 1.43.5.233
-  platform: huawei
-  username: unit
-  password: l2012
-  data:
-    site: test
-    ip: '1.1.1.2'
-  groups:
-    - huawei
-    - test
-
-ZAZAR0529ASTPL00003:
-  hostname: 1.43.5.232
-  platform: ios
-  data:
-    site: test
-    ip: '1.1.1.3'
-  groups:
-    - ios
-    - test
-
-host1:
-  hostname: 192.168.204.217 
-  platform: ios
-  groups:
-    - ios
-  data:
-    site: inaem
-    anchoas: 1
-
-host2:
-  hostname: 192.168.160.54
-  platform: linux
-  data:
-    site: ast
-    anchoas: 2
-
-host3:
-  hostname: 192.168.204.222 
-  platform: huawei
-  groups:
-    - huawei
-  data:
-    site: inaem
-    type: network_device
-    anchoas: 3
-
-host4:
-  hostname: 192.168.204.213 
-  platform: huawei
-  groups:
-    - huawei
-  data:
-    site: inaem
-
-host5:
-  hostname: 192.168.204.215 
-  port: 23
-  platform: ios
-  groups:
-    - ios_telnet
-  data:
-    site: inaem
-    type: network_device
-    anchoas: 5
 
 ZAZAR0094DPEPL00101:
-  hostname: 1.8.1.231
+  hostname: 192.168.204.196
   platform: huawei
   groups:
     - huawei
   data:
     site: '0094'
-    ip: '192.168.204.196'
 
 ZAZAR0094DPEPL00102:
-  hostname: 1.8.1.232
+  hostname: 192.168.204.197
   platform: huawei
   groups:
-    - '0094'
     - huawei
   data:
     site: '0094'
-    ip: '192.168.204.197'
 
 ZAZAR0094DPEPL00103:
-  hostname: 1.8.1.233
+  hostname: 192.168.204.198
   platform: huawei
   groups:
-    - '0094'
     - huawei
   data:
     site: '0094'
-    ip: '192.168.204.198'
 
 ZAZAR0094DPEPL00104:
-  hostname: 1.8.1.234
+  hostname: 192.168.204.199
   platform: huawei
   groups:
-    - '0094'
     - huawei
   data:
     site: '0094'
-    ip: '192.168.204.199'
 
 ZAZAR0094DPEPL00105:
-  hostname: 1.8.1.235
-  platform: ios
-  data:
-    site: '0094'
-    ip: '192.168.204.200'
-  groups:
-    - '0094'
-
-ZAZAR0094DPEPL00106:
-  hostname: 1.8.1.236
+  hostname: 192.168.204.200
   platform: ios
   groups:
-    - '0094'
     - ios
   data:
     site: '0094'
-    ip: '192.168.204.201'
+
+#ZAZAR0094DPEPL00106:
+#  hostname: 192.168.204.201
+#  platform: ios
+#  groups:
+#    - ios
+#  data:
+#    site: '0094'
 
 ZAZAR0094DPEPL00107:
-  hostname: 1.8.1.237
+  hostname: 192.168.204.202
   platform: ios
   groups:
-    - '0094'
     - ios
   data:
     site: '0094'
-    ip: '192.168.204.202'
+
+
+
+ZSZAR0535MSHPL02401:
+  hostname: 192.168.207.59
+  platform: ios
+  groups:
+    - ios
+  data:
+    site: '0535'
+
+ZSZAR0535MSHPL02101:
+  hostname: 192.168.207.57
+  platform: ios
+  groups:
+    - ios
+  data:
+    site: '0535'
+
+ZSZAR0535MSHPL02301:
+  hostname: 192.168.207.58
+  platform: ios
+  groups:
+    - ios
+  data:
+    site: '0535'
+
+ZSZAR0535MSHPL00401:
+  hostname: 192.168.207.47
+  platform: ios
+  groups:
+    - ios
+  data:
+    site: '0535'
