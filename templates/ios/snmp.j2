@@ -1,28 +1,9 @@
 !
 ip access-list standard 60
  remark Equipos con acceso SNMP rw
- permit host 192.168.7.121
+ permit host {{ ini_vars['snmp_ip'] }}
+ permit host {{ ini_vars['nagios_ip'] }}
  deny any
 !
-snmp-server community C0mun1c4c10n3s rw 60
-!
-tacacs-server timeout 2
-!
-enable secret 2018.%Lote7
-!
-username comunicaciones privilege 15 secret 2018.%Lote7
-username lote1 privilege 15 secret T3l3f0n1c4
-!
-vlan 1099
- name GestRED
-!
-{% for interface in trunks %}
-interface {{ interface }}
- description {{ interface }}
- switchport trunk allowed vlan add 1099
-{% endfor %}
-!
-int vlan1099
- ip address {{ nr.host['ip'] }} {{ nr.host['mask'] }}
-end
+snmp-server community {{ ini_vars['snmp_w_password'] }} rw 60
 !

@@ -1,84 +1,105 @@
 from nornir.plugins.tasks import networking, text
-from nornir.core.exceptions import NornirSubTaskError
 import main
+from models import huawei, ios
+from bootstrap import get_ini_vars
+from helpers import check_directory
 
 
-TEMPLATE = 'test.j2'
-
-
-def get_interfaces_status(nr):
+def get_interfaces_status(nr) -> list:
     r = ''
     if nr.host.platform == 'huawei':
-
-        print(f'... doing display port vlan for Huawei host: {nr.host} ...\n')
-        r = nr.run(task=networking.netmiko_send_command,
-                   name=f'DOING DISPLAY PORT VLAN FOR {nr.host}',
-                   command_string='display port vlan',
-                   use_textfsm=True
-                   ).result
-        return r
+        # print(f'... trying display port vlan for Huawei host: {nr.host}...\n')
+        r = huawei.get_interfaces_status(nr)
 
     if nr.host.platform == 'ios':
-
-        print(f'... doing show interface status for Cisco host: {nr.host} ...\n')
-        try:
-            ssh = True
-            r = nr.run(task=networking.netmiko_send_command,
-                       name=f'DOING SHOW INTERFACE STATUS FOR {nr.host} BY SSH',
-                       command_string='show interfaces status',
-                       use_textfsm=True
-                       ).result
-
-        except NornirSubTaskError:
-            print('Al parecer, SSH no funciona asi que cerrando conexion...')
-            ssh = False
-            try:
-                nr.host.close_connections()
-            except ValueError:
-                print('... y abriendo un telnet en su lugar ....')
-                pass
-
-        if not ssh:
-
-            main.change_to_telnet(nr.host)
-
-            r = nr.run(task=networking.netmiko_send_command,
-                       name=f'DOING SHOW INTERFACE STATUS FOR {nr.host} BY TELNET',
-                       command_string='show interfaces status',
-                       use_textfsm=True
-                       ).result
+        # print(f'... trying show interface status for Cisco host: {nr.host}...\n')
+        r = ios.get_interfaces_status(nr)
 
     return r
 
 
-def basic_configuration(interfaces, nr):
+def basic_configuration(template, nr) -> None:
 
+    ini_vars = get_ini_vars()
     # Transform inventory data to configuration via a template file
-    print(f'... applying config template for host: { nr.host } ...\n')
+    # print(f'... applying config template for host: { nr.host } ...\n')
     r = nr.run(task=text.template_file,
                name=f"APLICAR PLANTILLA LOTE 7 PARA {nr.host.platform}",
-               template=TEMPLATE,
+               template=template,
                path=f"templates/{nr.host.platform}",
-               interfaces=interfaces,
-               nr=nr)
+               nr=nr,
+               ini_vars=ini_vars,
+               )
 
     # Save the compiled configuration into a host variable
     nr.host["config"] = r.result
 
     # Deploy that configuration to the device using NAPALM
-    print(f'... write mem config for { nr.host } ...\n')
+    # print(f'... write mem config for { nr.host } ...\n')
     nr.run(task=networking.netmiko_send_config,
            config_commands=nr.host["config"].splitlines())
 
 
-def get_interface_description(interfaces, nr):
+def backup_config(nr) -> None:
+    r = ''
+    file = f'{nr.host}-{nr.host.hostname}.cfg'
+    path = './backups/'
+    filename = f'{path}{file}'
+
+    # print(f'... exporting running-config for host: {nr.host} ...\n')
+    if nr.host.platform == 'huawei':
+
+        # print(f'... trying for Huawei host: {nr.host} by SSH ...\n')
+        r = huawei.get_config(nr)
+
+    if nr.host.platform == 'ios':
+
+        # print(f'... trying for Cisco host: {nr.host} by SSH ...\n')
+        try:
+            ssh = True
+            r = ios.get_config(nr)
+
+        except:
+            # print(f'...SSH not working for {nr.host} IP {nr.host.hostname} , closing connection attempt...')
+            ssh = False
+            pass
+            try:
+                nr.host.close_connections()
+            except ValueError:
+                # print('...trying TELNET instead....')
+                pass
+
+        if not ssh:
+
+            # nr.host.connection_options['netmiko'] = ConnectionOptions(
+            #     extras={"device_type": 'cisco_ios_telnet'})
+
+            main.change_to_telnet(nr)
+
+            # print(f'Telnet {nr.host} IP {nr.host.hostname} ...')
+            try:
+                r = ios.get_config(nr)
+            except:
+                # print(f'Unable to connect to {nr.host} - {nr.host.hostname} by telnet\n')
+                pass
+
+    # print(f'Saving config for {nr.host} to file {filename}')
+    check_directory(filename)
+    with open(filename, 'a') as f:
+        f.write(r)
+
+
+def get_interface_description(interfaces, nr) -> list:
+    r = ''
     result = []
     for interface in interfaces:
-        r = nr.run(task=networking.netmiko_send_command,
-                   name='MUESTRA LA DESCRIPTION DE LOS PUERTOS',
-                   command_string=f'show interface {interface}',
-                   use_textfsm=True
-                   ).result
+        if nr.host.platform == 'huawei':
+            # print(f'... trying display port vlan for Huawei host: {nr.host}...\n')
+            r = huawei.get_interface_description(interface, nr)
+
+        if nr.host.platform == 'ios':
+            # print(f'... trying show interface status for Cisco host: {nr.host}...\n')
+            r = ios.get_interface_description(interface, nr)
 
         # do not duplicate interface name in description if it already exists
         if interface in r[0]['description']:
@@ -93,9 +114,3 @@ def get_interface_description(interfaces, nr):
     return result
 
 
-def get_neighbor(interface, nr):
-    r = nr.run(task=networking.netmiko_send_command,
-               name='MUESTRA LA DESCRIPTION DE LOS PUERTOS',
-               command_string=f'show cdp nei {interface} det',
-               use_textfsm=True
-               ).result

@@ -2,3 +2,12 @@
 nornir.log
 venv
 __pycache__/
+outputs/
+*-output.txt
+backups/
+outputs/
+.global.ini
+inventory/hosts.yaml
+inventario_extendido.csv
+inventory/hosts.yaml.backup
+inventario_extendido.csv.backup

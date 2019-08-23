@@ -1,13 +1,4 @@
 ---
-# defaults:
-#   port: 22
-#   username: username
-#   password: password
-#   platform: ios 
-#   data:
-#     type: network_device
-#     anchoas: 4
-
 global:
   data:
     domain: aragon.es
@@ -32,10 +23,4 @@ ios_telnet:
         optional_args:
           transport: 'telnet'
 
-'0094':
-  data:
-    mask: '255.255.255.240'
-
-test:
-  data:
-    mask: '255.255.255.240'
+0094: {}
