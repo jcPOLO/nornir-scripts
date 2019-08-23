@@ -4,5 +4,9 @@ venv
 __pycache__/
 outputs/
 *-output.txt
-backup/
+backups/
+outputs/
 .global.ini
+inventory/hosts.yaml
+inventario_extendido.csv
+inventory/hosts.yaml.backup

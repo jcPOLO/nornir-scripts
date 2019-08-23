@@ -1,17 +1,8 @@
 from nornir.plugins.tasks import networking, text
 import main
 from models import huawei, ios
-import os
-import errno
-from netmiko.ssh_exception import NetMikoTimeoutException
-import configparser
-
-
-def get_ini_vars() -> dict:
-    config = configparser.RawConfigParser()
-    config.read('.global.ini')
-    r = config
-    return dict(r['GLOBAL'])
+from bootstrap import get_ini_vars
+from helpers import check_directory
 
 
 def get_interfaces_status(nr) -> list:
@@ -52,7 +43,7 @@ def basic_configuration(template, nr) -> None:
 def backup_config(nr) -> None:
     r = ''
     file = f'{nr.host}-{nr.host.hostname}.cfg'
-    path = './backup/'
+    path = './backups/'
     filename = f'{path}{file}'
 
     print(f'... exporting running-config for host: {nr.host} ...\n')
@@ -69,13 +60,13 @@ def backup_config(nr) -> None:
             r = ios.get_config(nr)
 
         except:
-            print(f'...SSH not working for {nr.host} IP {nr.host.hostname} , closing connection attempt...')
+            # print(f'...SSH not working for {nr.host} IP {nr.host.hostname} , closing connection attempt...')
             ssh = False
             pass
             try:
                 nr.host.close_connections()
             except ValueError:
-                print('...trying TELNET instead....')
+                # print('...trying TELNET instead....')
                 pass
 
         if not ssh:
@@ -88,16 +79,11 @@ def backup_config(nr) -> None:
             print(f'Telnet {nr.host} IP {nr.host.hostname} ...')
             try:
                 r = ios.get_config(nr)
-            finally:
+            except:
                 print(f'Unable to connect to {nr.host} - {nr.host.hostname} by telnet\n')
 
     print(f'Saving config for {nr.host} to file {filename}')
-    if not os.path.exists(os.path.dirname(filename)):
-        try:
-            os.makedirs(os.path.dirname(filename))
-        except OSError as exc:  # Guard against race condition
-            if exc.errno != errno.EEXIST:
-                raise
+    check_directory(filename)
     with open(filename, 'a') as f:
         f.write(r)
 
