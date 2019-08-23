@@ -22,7 +22,7 @@ def basic_configuration(template, nr) -> None:
 
     ini_vars = get_ini_vars()
     # Transform inventory data to configuration via a template file
-    print(f'... applying config template for host: { nr.host } ...\n')
+    # print(f'... applying config template for host: { nr.host } ...\n')
     r = nr.run(task=text.template_file,
                name=f"APLICAR PLANTILLA LOTE 7 PARA {nr.host.platform}",
                template=template,
@@ -35,7 +35,7 @@ def basic_configuration(template, nr) -> None:
     nr.host["config"] = r.result
 
     # Deploy that configuration to the device using NAPALM
-    print(f'... write mem config for { nr.host } ...\n')
+    # print(f'... write mem config for { nr.host } ...\n')
     nr.run(task=networking.netmiko_send_config,
            config_commands=nr.host["config"].splitlines())
 
@@ -46,7 +46,7 @@ def backup_config(nr) -> None:
     path = './backups/'
     filename = f'{path}{file}'
 
-    print(f'... exporting running-config for host: {nr.host} ...\n')
+    # print(f'... exporting running-config for host: {nr.host} ...\n')
     if nr.host.platform == 'huawei':
 
         # print(f'... trying for Huawei host: {nr.host} by SSH ...\n')
@@ -76,13 +76,14 @@ def backup_config(nr) -> None:
 
             main.change_to_telnet(nr)
 
-            print(f'Telnet {nr.host} IP {nr.host.hostname} ...')
+            # print(f'Telnet {nr.host} IP {nr.host.hostname} ...')
             try:
                 r = ios.get_config(nr)
             except:
-                print(f'Unable to connect to {nr.host} - {nr.host.hostname} by telnet\n')
+                # print(f'Unable to connect to {nr.host} - {nr.host.hostname} by telnet\n')
+                pass
 
-    print(f'Saving config for {nr.host} to file {filename}')
+    # print(f'Saving config for {nr.host} to file {filename}')
     check_directory(filename)
     with open(filename, 'a') as f:
         f.write(r)

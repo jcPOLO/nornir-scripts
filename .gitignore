@@ -10,3 +10,4 @@ outputs/
 inventory/hosts.yaml
 inventario_extendido.csv
 inventory/hosts.yaml.backup
+inventario_extendido.csv.backup

@@ -116,7 +116,7 @@ def main() -> None:
 
     result = devices.run(task=make_magic)
     print_result(result)
- 
- 
+
+
 if __name__ == '__main__':
     main()
