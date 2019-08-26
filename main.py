@@ -5,8 +5,7 @@ import getpass
 from nornir.core.inventory import ConnectionOptions
 import tasks
 from bootstrap import load_inventory
-from helpers import check_directory, print_progress_bar
-import time
+from helpers import check_directory
 
 CSV = 'inventario_extendido.csv'
 CFG_FILE = 'config.yaml'
@@ -65,12 +64,12 @@ def session_log(nr) -> str:
     return filename
 
 
-def make_magic(nr, i, total) -> None:
+def make_magic(nr) -> None:
     # 'pasar vlan 1099 por los trunks?'
     #
     # 'crear interface capa 3 vlan 1099?'
     #
-    # 'cambiar descripcion a los trunks?'
+    # 'cambiar descripcion a los trunks?
     #
     # 'agregar configuracion snmp?'
     #
@@ -78,10 +77,6 @@ def make_magic(nr, i, total) -> None:
     #
     # 'agregar usuarios locales?'
     # makes a log file output for every device accessed
-    time.sleep(0.1)
-    print_progress_bar(i + 1, total, prefix='Progress:', suffix='Complete', length=50)
-    i = i + 1
-    print(i)
 
     session_log(nr)
     # backup config
@@ -94,7 +89,6 @@ def make_magic(nr, i, total) -> None:
     # tasks.get_interface_description(interfaces, nr)
 
     # config(nr)
-    return i
 
 
 def config(nr) -> None:
@@ -121,21 +115,9 @@ def main() -> None:
 
     devices = filter_inventory(nr)
 
-    i = 0
-    total = len(devices.inventory.hosts)
-    print_progress_bar(0, total, prefix='Progress:', suffix='Complete', length=50)
-
-    result = devices.run(task=make_magic, total=total, i=i+1)
+    result = devices.run(task=make_magic)
     print_result(result)
 
 
 if __name__ == '__main__':
     main()
-
-
-def iteration():
-    print_progress_bar(0, total, prefix='Progress:', suffix='Complete', length=50)
-    for h, i in hosts:
-        time.sleep(0.1)
-        print_progress_bar(i + 1, total, prefix='Progress:', suffix='Complete', length=50)
-        pool.apply_async(Task(task, **kwargs).start, args=(h, self))
