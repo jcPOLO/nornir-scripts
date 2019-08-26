@@ -6,6 +6,8 @@ from nornir.core.inventory import ConnectionOptions
 import tasks
 from bootstrap import load_inventory
 from helpers import check_directory
+from models.Template import Template
+from models.TemplateManager import TemplateManager
 
 CSV = 'inventario_extendido.csv'
 CFG_FILE = 'config.yaml'
@@ -64,7 +66,14 @@ def session_log(nr) -> str:
     return filename
 
 
-def make_magic(nr) -> None:
+def trunk_description(nr):
+    data = tasks.get_interfaces_status(nr)
+    interfaces = process_data_trunk(data)
+    nr.host['interfaces'] = interfaces
+    tasks.get_interface_description(interfaces, nr)
+
+
+def make_magic(nr, if_trunk) -> None:
     # 'pasar vlan 1099 por los trunks?'
     #
     # 'crear interface capa 3 vlan 1099?'
@@ -77,10 +86,12 @@ def make_magic(nr) -> None:
     #
     # 'agregar usuarios locales?'
     # makes a log file output for every device accessed
-
     session_log(nr)
     # backup config
     tasks.backup_config(nr)
+
+    if if_trunk:
+        trunk_description(nr)
     # issue the command in the device and gets the output as a dict
     # data = tasks.get_interfaces_status(nr)
     # takes all trunk interfaces
@@ -91,20 +102,20 @@ def make_magic(nr) -> None:
     # config(nr)
 
 
-def template():
-    templates = [
-        'snmp.j2',
-        'trunk_description.j2',
-        'tacacs',
-        'vlan1099',
-    ]
-    
-
+def get_templates(templates) -> list:
+    result = []
+    for template in templates:
+        answer = input(f'{template.prompt}\n')
+        if answer == 'y':
+            template.answer = True
+            result.append(template)
+    print(f'Applied these templates: {result}\n')
+    return result
 
 
 def config(nr) -> None:
     # record configuration in the device
-    template = 'snmp.j2'
+    template = 'final.j2'
     tasks.basic_configuration(template, nr)
 
 
@@ -126,7 +137,29 @@ def main() -> None:
 
     devices = filter_inventory(nr)
 
-    result = devices.run(task=make_magic)
+    if_trunk = False
+    template_prompts = [
+        'common.j2',
+        'snmp.j2',
+        'trunk_description.j2',
+        # 'tacacs.j2',
+        # 'vlan1099.j2',
+        # 'ssh_rsa.j2',
+    ]
+
+    templates = [
+        Template(template, template) for template in template_prompts
+    ]
+
+    templates = get_templates(templates)
+    template_m = TemplateManager(templates)
+    template_m.create_final_template('huawei')
+    template_m.create_final_template('ios')
+    for template in templates:
+        if 'trunk' in template.prompt:
+            if_trunk = True
+
+    result = devices.run(task=make_magic, if_trunk=if_trunk)
     print_result(result)
 
 
