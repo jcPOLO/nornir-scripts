@@ -4,10 +4,10 @@ from nornir.core.filter import F
 import getpass
 from nornir.core.inventory import ConnectionOptions
 import tasks
-import os
-import errno
+from bootstrap import load_inventory
+from helpers import check_directory
 
-
+CSV = 'inventario_extendido.csv'
 CFG_FILE = 'config.yaml'
 PLATFORM = ['ios', 'huawei']
 EXCLUDED_VLANS = [1, 1002, 1003, 1004, 1005]
@@ -55,17 +55,10 @@ def filter_inventory(nr):
 
 
 def session_log(nr) -> str:
-    file = f'{nr.host}-output.txt'
+    file = f'{nr.host}-{nr.host.hostname}-output.txt'
     path = './outputs/'
     filename = f'{path}{file}'
-
-    if not os.path.exists(os.path.dirname(filename)):
-        try:
-            os.makedirs(os.path.dirname(filename))
-        except OSError as exc:  # Guard against race condition
-            if exc.errno != errno.EEXIST:
-                raise
-
+    check_directory(path)
     group_object = nr.host.groups.refs[0]
     group_object.connection_options["netmiko"].extras["session_log"] = filename
     return filename
@@ -107,6 +100,13 @@ def main() -> None:
     username = input("Username:")
     password = getpass.getpass()
 
+    try:
+        load_inventory(CSV)
+    except:
+        print('no se ha podido crear el hosts.yaml')
+
+    input("Files loaded. Press a key to continue...")
+
     nr = InitNornir(config_file=CFG_FILE)
 
     nr.inventory.defaults.password = password
@@ -116,7 +116,7 @@ def main() -> None:
 
     result = devices.run(task=make_magic)
     print_result(result)
- 
- 
+
+
 if __name__ == '__main__':
     main()
