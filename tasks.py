@@ -52,7 +52,7 @@ def basic_configuration(template, nr) -> None:
 def backup_config(nr) -> None:
     r = ''
     file = f'{nr.host}-{nr.host.hostname}.cfg'
-    path = './backup/'
+    path = './backups/'
     filename = f'{path}{file}'
 
     print(f'... exporting running-config for host: {nr.host} ...\n')
