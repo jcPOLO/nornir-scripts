@@ -1,21 +1,11 @@
 !
-tacacs-server timeout 2
+no ip access-list standard 60
 !
-enable secret {{ ini_vars['console_password'] }}
+ip access-list standard 60
+ remark Equipos con acceso SNMP rw
+ permit host {{ ini_vars['snmp_ip'] }}
+ permit host {{ ini_vars['nagios_ip'] }}
+ deny any
 !
-cdp run
+snmp-server community {{ ini_vars['snmp_w_password'] }} rw 60
 !
-lldp run
-!
-username {{ ini_vars['user_lote7'] }} privilege 15 secret {{ ini_vars['user_lote7_password'] }}
-username {{ ini_vars['user_lote1'] }} privilege 15 secret {{ ini_vars['user_lote1_password'] }}
-!
-line vty 0 4
- no access-class 11 in
-!
-
-{% for interface in nr.host['interfaces'] %}
-interface {{ interface }}
- description {{ interface['description'] }}
- exit
-{% endfor %}

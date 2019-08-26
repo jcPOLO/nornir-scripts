@@ -91,6 +91,7 @@ def make_magic(nr, if_trunk) -> None:
     tasks.backup_config(nr)
 
     if if_trunk:
+        print('trunk dafdafdsafds')
         trunk_description(nr)
     # issue the command in the device and gets the output as a dict
     # data = tasks.get_interfaces_status(nr)
@@ -99,7 +100,7 @@ def make_magic(nr, if_trunk) -> None:
     # nr.host['interfaces'] = interfaces
     # tasks.get_interface_description(interfaces, nr)
 
-    # config(nr)
+    config(nr)
 
 
 def get_templates(templates) -> list:
@@ -109,7 +110,6 @@ def get_templates(templates) -> list:
         if answer == 'y':
             template.answer = True
             result.append(template)
-    print(f'Applied these templates: {result}\n')
     return result
 
 
@@ -156,11 +156,15 @@ def main() -> None:
     template_m.create_final_template('huawei')
     template_m.create_final_template('ios')
     for template in templates:
+        print(f'Template applied: {str(template)}')
         if 'trunk' in template.prompt:
             if_trunk = True
+        else:
+            print('Trunk false')
 
     result = devices.run(task=make_magic, if_trunk=if_trunk)
     print_result(result)
+    print(result.failed_hosts.keys())
 
 
 if __name__ == '__main__':
