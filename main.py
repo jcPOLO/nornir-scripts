@@ -88,11 +88,11 @@ def make_magic(nr) -> None:
     # backup config
     tasks.backup_config(nr)
     # issue the command in the device and gets the output as a dict
-    data = tasks.get_interfaces_status(nr)
+    # data = tasks.get_interfaces_status(nr)
     # takes all trunk interfaces
-    interfaces = process_data_trunk(data)
-    nr.host['interfaces'] = interfaces
-    tasks.get_interface_description(interfaces, nr)
+    # interfaces = process_data_trunk(data)
+    # nr.host['interfaces'] = interfaces
+    # tasks.get_interface_description(interfaces, nr)
 
     config(nr)
 
