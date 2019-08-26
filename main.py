@@ -91,6 +91,17 @@ def make_magic(nr) -> None:
     # config(nr)
 
 
+def template():
+    templates = [
+        'snmp.j2',
+        'trunk_description.j2',
+        'tacacs',
+        'vlan1099',
+    ]
+    
+
+
+
 def config(nr) -> None:
     # record configuration in the device
     template = 'snmp.j2'
