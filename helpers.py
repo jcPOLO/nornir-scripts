@@ -18,3 +18,4 @@ def check_directory(path):
         except OSError as exc:  # Guard against race condition
             if exc.errno != errno.EEXIST:
                 raise
+

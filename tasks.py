@@ -29,6 +29,7 @@ def basic_configuration(template, nr) -> None:
                path=f"templates/{nr.host.platform}",
                nr=nr,
                ini_vars=ini_vars,
+
                )
 
     # Save the compiled configuration into a host variable
@@ -37,7 +38,8 @@ def basic_configuration(template, nr) -> None:
     # Deploy that configuration to the device using NAPALM
     # print(f'... write mem config for { nr.host } ...\n')
     nr.run(task=networking.netmiko_send_config,
-           config_commands=nr.host["config"].splitlines())
+           config_commands=nr.host["config"].splitlines(),
+           )
 
 
 def backup_config(nr) -> None:
