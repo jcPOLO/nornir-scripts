@@ -22,6 +22,3 @@ class TemplateManager:
 
         with open(filename, 'w') as f:
             f.write(self.merge_templates(platform))
-
-
-

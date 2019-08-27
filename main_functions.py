@@ -51,14 +51,14 @@ def process_data_trunk(data) -> list:
     return result
 
 
-def trunk_description(nr):
+def trunk_description(nr) -> None:
     data = tasks.get_interfaces_status(nr)
     interfaces = process_data_trunk(data)
     nr.host['interfaces'] = interfaces
     tasks.get_interface_description(interfaces, nr)
 
 
-def filter_inventory(nr):
+def filter_inventory(nr) -> object:
     devices = nr
     platform = input("Platform to filter: [ios/huawei]").lower()
     site = str(input("Cod Inm:"))
