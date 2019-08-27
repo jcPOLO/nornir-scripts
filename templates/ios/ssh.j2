@@ -1,0 +1,11 @@
+!
+ip domain-name aragon.es
+!
+crypto key generate rsa
+y
+1024
+!
+line vty 0 4
+ no access-class 11 in
+ transport input all
+!

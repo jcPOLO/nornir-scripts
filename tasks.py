@@ -1,5 +1,5 @@
 from nornir.plugins.tasks import networking, text
-import main
+from main_functions import change_to_telnet
 from models import huawei, ios
 from bootstrap import get_ini_vars
 from helpers import check_directory
@@ -76,7 +76,7 @@ def backup_config(nr) -> None:
             # nr.host.connection_options['netmiko'] = ConnectionOptions(
             #     extras={"device_type": 'cisco_ios_telnet'})
 
-            main.change_to_telnet(nr)
+            change_to_telnet(nr)
 
             # print(f'Telnet {nr.host} IP {nr.host.hostname} ...')
             try:

@@ -8,6 +8,5 @@ backups/
 outputs/
 .global.ini
 inventory/hosts.yaml
-inventario_extendido.csv
+inventory.csv
 inventory/hosts.yaml.backup
-inventario_extendido.csv.backup
