@@ -3,7 +3,7 @@ import os
 import errno
 
 
-def is_ip(string):
+def is_ip(string: str) -> bool:
     try:
         ipaddress.ip_address(string)
         return True
@@ -11,7 +11,7 @@ def is_ip(string):
         return False
 
 
-def check_directory(path):
+def check_directory(path: str):
     if not os.path.exists(os.path.dirname(path)):
         try:
             os.makedirs(os.path.dirname(path))
@@ -19,3 +19,7 @@ def check_directory(path):
             if exc.errno != errno.EEXIST:
                 raise
 
+
+def is_int(v: any) -> bool:
+    v = str(v).strip()
+    return v == '0' or (v if v.find('..') > -1 else v.lstrip('-+').rstrip('0').rstrip('.')).isdigit()

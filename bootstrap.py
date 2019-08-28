@@ -12,7 +12,7 @@ def get_ini_vars() -> dict:
 
 
 # Return a dictionary from imported csv file
-def import_inventory_file(f):
+def import_inventory_file(f: str) -> dict:
     result = {}
     with open(f, 'r') as csv_file:
         csv_reader = csv.reader(csv_file)
@@ -50,6 +50,6 @@ def create_hosts_yaml(d: dict) -> None:
         f.write(yml)
 
 
-def load_inventory(f):
+def load_inventory(f: str) -> None:
     d = import_inventory_file(f)
     create_hosts_yaml(d)

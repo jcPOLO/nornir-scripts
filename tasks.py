@@ -1,107 +1,108 @@
+from nornir.core import Task
 from nornir.plugins.tasks import networking, text
-from main_functions import change_to_telnet
 from models import huawei, ios
 from bootstrap import get_ini_vars
 from helpers import check_directory
+import logging
 
 
-def get_interfaces_status(nr) -> list:
+def get_interfaces_status(task: Task) -> list:
     r = ''
-    if nr.host.platform == 'huawei':
-        # print(f'... trying display port vlan for Huawei host: {nr.host}...\n')
-        r = huawei.get_interfaces_status(nr)
+    if task.host.platform == 'huawei':
+        # print(f'... trying display port vlan for Huawei host: {task.host}...\n')
+        r = huawei.get_interfaces_status(task)
 
-    if nr.host.platform == 'ios':
-        # print(f'... trying show interface status for Cisco host: {nr.host}...\n')
-        r = ios.get_interfaces_status(nr)
+    if task.host.platform == 'ios':
+        # print(f'... trying show interface status for Cisco host: {task.host}...\n')
+        r = ios.get_interfaces_status(task)
 
     return r
 
 
-def basic_configuration(template, nr) -> None:
+def basic_configuration(template: str, task: Task) -> None:
 
     ini_vars = get_ini_vars()
     # Transform inventory data to configuration via a template file
-    # print(f'... applying config template for host: { nr.host } ...\n')
-    r = nr.run(task=text.template_file,
-               name=f"APLICAR PLANTILLA LOTE 7 PARA {nr.host.platform}",
-               template=template,
-               path=f"templates/{nr.host.platform}",
-               nr=nr,
-               ini_vars=ini_vars,
-
-               )
+    # print(f'... applying config template for host: { task.host } ...\n')
+    r = task.run(task=text.template_file,
+                 name=f"PLANTILLA A APLICAR PARA {task.host.platform}",
+                 template=template,
+                 path=f"templates/{task.host.platform}",
+                 ini_vars=ini_vars,
+                 severity_level=logging.DEBUG,
+                 )
 
     # Save the compiled configuration into a host variable
-    nr.host["config"] = r.result
+    task.host["config"] = r.result
 
     # Deploy that configuration to the device using NAPALM
-    # print(f'... write mem config for { nr.host } ...\n')
-    nr.run(task=networking.netmiko_send_config,
-           config_commands=nr.host["config"].splitlines(),
-           )
+    # print(f'... write mem config for { task.host } ...\n')
+    task.run(task=networking.netmiko_send_config,
+             name=f"APLICAR PLANTILLA PARA {task.host.platform}",
+             config_commands=task.host["config"].splitlines(),
+             )
 
 
-def backup_config(nr) -> None:
+def backup_config(task: Task) -> None:
     r = ''
-    file = f'{nr.host}-{nr.host.hostname}.cfg'
+    file = f'{task.host}-{task.host.hostname}.cfg'
     path = './backups/'
     filename = f'{path}{file}'
 
-    # print(f'... exporting running-config for host: {nr.host} ...\n')
-    if nr.host.platform == 'huawei':
+    # print(f'... exporting running-config for host: {task.host} ...\n')
+    if task.host.platform == 'huawei':
 
-        # print(f'... trying for Huawei host: {nr.host} by SSH ...\n')
-        r = huawei.get_config(nr)
+        # print(f'... trying for Huawei host: {task.host} by SSH ...\n')
+        r = huawei.get_config(task)
 
-    if nr.host.platform == 'ios':
+    if task.host.platform == 'ios':
 
-        # print(f'... trying for Cisco host: {nr.host} by SSH ...\n')
+        # print(f'... trying for Cisco host: {task.host} by SSH ...\n')
         try:
             ssh = True
-            r = ios.get_config(nr)
+            r = ios.get_config(task)
 
         except:
-            # print(f'...SSH not working for {nr.host} IP {nr.host.hostname} , closing connection attempt...')
+            # print(f'...SSH not working for {task.host} IP {task.host.hostname} , closing connection attempt...')
             ssh = False
             pass
             try:
-                nr.host.close_connections()
+                task.host.close_connections()
             except ValueError:
                 # print('...trying TELNET instead....')
                 pass
 
         if not ssh:
 
-            # nr.host.connection_options['netmiko'] = ConnectionOptions(
+            # task.host.connection_options['netmiko'] = ConnectionOptions(
             #     extras={"device_type": 'cisco_ios_telnet'})
+            from main_functions import change_to_telnet
+            change_to_telnet(task)
 
-            change_to_telnet(nr)
-
-            # print(f'Telnet {nr.host} IP {nr.host.hostname} ...')
+            # print(f'Telnet {task.host} IP {task.host.hostname} ...')
             try:
-                r = ios.get_config(nr)
+                r = ios.get_config(task)
             except:
-                # print(f'Unable to connect to {nr.host} - {nr.host.hostname} by telnet\n')
+                # print(f'Unable to connect to {task.host} - {task.host.hostname} by telnet\n')
                 pass
 
-    # print(f'Saving config for {nr.host} to file {filename}')
+    # print(f'Saving config for {task.host} to file {filename}')
     check_directory(filename)
     with open(filename, 'a') as f:
         f.write(r)
 
 
-def get_interface_description(interfaces, nr) -> list:
+def get_interface_description(interfaces: list, task: Task) -> list:
     r = ''
     result = []
     for interface in interfaces:
-        if nr.host.platform == 'huawei':
-            # print(f'... trying display port vlan for Huawei host: {nr.host}...\n')
-            r = huawei.get_interface_description(interface, nr)
+        if task.host.platform == 'huawei':
+            # print(f'... trying display port vlan for Huawei host: {task.host}...\n')
+            r = huawei.get_interface_description(interface, task)
 
-        if nr.host.platform == 'ios':
-            # print(f'... trying show interface status for Cisco host: {nr.host}...\n')
-            r = ios.get_interface_description(interface, nr)
+        if task.host.platform == 'ios':
+            # print(f'... trying show interface status for Cisco host: {task.host}...\n')
+            r = ios.get_interface_description(interface, task)
 
         # do not duplicate interface name in description if it already exists
         if interface in r[0]['description']:
@@ -114,5 +115,3 @@ def get_interface_description(interfaces, nr) -> list:
         result.append(port_dict)
 
     return result
-
-

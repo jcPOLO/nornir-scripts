@@ -9,4 +9,5 @@ outputs/
 .global.ini
 inventory/hosts.yaml
 inventory.csv
+inventory.csv.backup
 inventory/hosts.yaml.backup
