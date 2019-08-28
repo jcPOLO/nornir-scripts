@@ -30,10 +30,18 @@ def main() -> None:
     devices = filter_inventory(nr)
 
     menu = Menu()
-    menu.run()
+    t = menu.run()
 
-    result = devices.run(task=make_magic, name=f'CONTAINER TASK')
+    templates = t.templates
+    print(templates)
+
+    result = devices.run(task=make_magic,
+                         name=f'CONTAINER TASK',
+                         templates=templates
+                         )
+
     print_result(result)
+
     print("""
         Failed HOSTS:
         """)

@@ -1,6 +1,6 @@
 class Template(object):
 
-    def __init__(self, templates: list = []) -> None:
+    def __init__(self, templates: list) -> None:
         self.templates = templates
 
     def merge_templates(self, platform: str = '') -> str:

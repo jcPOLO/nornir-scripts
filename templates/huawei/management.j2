@@ -1,19 +1,9 @@
 #
-und acl number 2060
-#
-snmp-agent community write {{ ini_vars['snmp_w_password'] }} acl 2060
-#
-acl number 2060                           
- description Equipos con acceso SNMP rw   
- rule 10 permit source {{ ini_vars['snmp_ip'] }} 0
- rule 20 permit source {{ ini_vars['nagios_ip'] }} 0
-#
-#
  vlan {{ ini_vars['management_vlan_id'] }}
   description GestRED
 #
 {% for interface in interfaces %}
-interface {{ interface }}
+interface {{ interface['interface'] }}
  description {{ interface['interface'] }} {{ interface['description'] }}
  port trunk allow-pass vlan {{ ini_vars['management_vlan_id'] }}
  quit

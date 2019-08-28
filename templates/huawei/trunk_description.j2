@@ -1,5 +1,5 @@
 {% for interface in nr.host['interfaces'] %}
-interface {{ interface }}
+interface {{ interface['interface'] }}
  description {{ interface['description'] }}
  quit
 {% endfor %}

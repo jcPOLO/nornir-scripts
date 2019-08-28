@@ -7,11 +7,15 @@ from nornir.core import Nornir, Task
 PLATFORM = ['ios', 'huawei']
 
 
-def make_magic(task: Task) -> None:
+def make_magic(task: Task, templates: str) -> None:
     # makes a log file output for every device accessed
     session_log(task)
     # backup config
     backup_config(task)
+    # if option 2 or 3 is selected
+    if 'trunk_description.j2' in templates or 'management.j2' in templates:
+        print(f"{'trunk_description.j2' in templates} y {'management.j2' in templates}")
+        trunk_description(task)
     # apply final template
     config(task)
 
@@ -55,7 +59,7 @@ def trunk_description(task: Task) -> None:
     data = get_interfaces_status(task)
     interfaces = process_data_trunk(data)
     task.host['interfaces'] = interfaces
-    get_interface_description(interfaces, task)
+    task.host['interfaces'] = get_interface_description(interfaces, task)
 
 
 def filter_inventory(nr: Nornir) -> Nornir:

@@ -1,5 +1,7 @@
 !
-ip domain-name aragon.es
+hostname {{ nr.host['hostname'] }}
+!
+ip domain-name {{ ini_vars['dns_domain'] }}
 !
 crypto key generate rsa
 y

@@ -1,5 +1,7 @@
 #
-dns domain aragon.es
+sysname {{ nr.host['ip'] }}
+#
+dns domain {{ ini_vars['dns_domain'] }}
 #
 ssh authentication-type default password
 #

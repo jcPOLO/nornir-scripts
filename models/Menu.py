@@ -67,13 +67,14 @@ class Menu(object):
             else:
                 print("{0} is not a valid choice".format(choice))
 
-    def apply(self) -> None:
+    def apply(self) -> Template:
         if self.final_choices:
             try:
                 print(f"applied: -> {self.final_choices} <-")
                 t = Template(self.final_choices)
                 t.create_final_template('huawei')
                 t.create_final_template('ios')
+                return t
             except exit():
                 raise print('---------------- Error ----------------')
         else:

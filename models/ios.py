@@ -4,11 +4,14 @@ import logging
 
 
 def get_config(task: Task) -> str:
-    r = task.run(task=networking.netmiko_send_command,
-                 name=f"SHOW RUN PARA EL HOST: {task.host}",
-                 command_string='show run',
-                 severity_level=logging.DEBUG,
-                 ).result
+    try:
+        r = task.run(task=networking.netmiko_send_command,
+                     name=f"SHOW RUN PARA EL HOST: {task.host}",
+                     command_string='show run',
+                     severity_level=logging.DEBUG,
+                     ).result
+    except BaseException:
+        raise ConnectionError
     return r
 
 
