@@ -11,3 +11,5 @@ inventory/hosts.yaml
 inventory.csv
 inventory.csv.backup
 inventory/hosts.yaml.backup
+templates/ios/final.j2
+templates/huawei/final.j2
