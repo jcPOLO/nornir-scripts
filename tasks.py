@@ -46,28 +46,7 @@ def backup_config(task: Task) -> None:
     if task.host.platform == 'huawei':
         r = huawei.get_config(task)
     if task.host.platform == 'ios':
-        try:
-            ssh = True
-            r = ios.get_config(task)
-        except ConnectionError:
-            # print(f'...SSH not working for {task.host} IP {task.host.hostname} , closing connection attempt...')
-            ssh = False
-            pass
-            try:
-                task.host.close_connections()
-            except ValueError:
-                # print('...trying TELNET instead....')
-                pass
-
-        if not ssh:
-            from main_functions import change_to_telnet
-            change_to_telnet(task)
-            # print(f'Telnet {task.host} IP {task.host.hostname} ...')
-            try:
-                r = ios.get_config(task)
-            except ConnectionError:
-                # print(f'Unable to connect to {task.host} - {task.host.hostname} by telnet\n')
-                pass
+        r = ios.get_config(task)
 
     check_directory(filename)
     with open(filename, 'a') as f:

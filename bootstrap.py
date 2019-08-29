@@ -47,6 +47,8 @@ def import_inventory_file(f: str) -> dict:
                         'ios_telnet' if is_telnet and model == 'ios' else model
                     ],
                 }
+                if is_telnet:
+                    result[host]['port'] = 23
 
     if not result:
         raise ValueError('{result} empty for import_inventory_file"')
