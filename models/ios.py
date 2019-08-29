@@ -1,5 +1,6 @@
 from nornir.plugins.tasks import networking
 from nornir.core import Task
+from typing import List, Dict
 import logging
 
 
@@ -15,7 +16,7 @@ def get_config(task: Task) -> str:
     return r
 
 
-def get_interfaces_status(task: Task) -> list:
+def get_interfaces_status(task: Task) -> List[Dict[str, str]]:
     r = task.run(task=networking.netmiko_send_command,
                  name=f'SHOW INTERFACE STATUS PARA EL HOST: {task.host}',
                  command_string='show interfaces status',
@@ -25,7 +26,7 @@ def get_interfaces_status(task: Task) -> list:
     return r
 
 
-def get_interface_description(interface: str, task: Task) -> list:
+def get_interface_description(interface: str, task: Task) -> List[Dict[str, str]]:
     r = task.run(task=networking.netmiko_send_command,
                  name=f'SHOW INTERFACE {interface} PARA EL HOST: {task.host}',
                  command_string=f'show interface {interface}',

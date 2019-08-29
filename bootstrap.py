@@ -13,6 +13,20 @@ def get_ini_vars() -> dict:
 
 # Return a dictionary from imported csv file
 def import_inventory_file(f: str) -> dict:
+    """
+    host: <name>
+        hostname: <ip>
+        platform: <ios|huawei>
+        groups:
+            - <ios_telnet|ios|huawei>
+            - [site code|role type|...]
+        [
+        data:
+            site: '<site code>'
+            ip: <migration ip>
+        ]
+
+    """
     result = {}
     with open(f, 'r') as csv_file:
         csv_reader = csv.reader(csv_file)
@@ -20,16 +34,17 @@ def import_inventory_file(f: str) -> dict:
 
         for row in csv_reader:
 
-            ip = row[0] if is_ip(row[0]) else '0.0.0.0'
-            host = row[1].replace(" ", "_")
-            model = row[2].lower().replace(" ", "_")
+            hostname = row[0] if is_ip(row[0]) else '0.0.0.0'
+            host = row[3].replace(" ", "_")
+            model = row[4].lower().replace(" ", "_")
+            is_telnet = 't' in row[1].lower()
 
             if host and host not in result.keys():
                 result[host] = {
-                    'hostname': ip,
+                    'hostname': hostname,
                     'platform': model,
                     'groups': [
-                        model
+                        'ios_telnet' if is_telnet and model == 'ios' else model
                     ],
                 }
 

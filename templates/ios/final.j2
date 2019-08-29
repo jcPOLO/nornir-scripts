@@ -9,19 +9,3 @@ ip access-list standard 60
 !
 snmp-server community {{ ini_vars['snmp_w_password'] }} rw 60
 !
-
-!
-vlan {{ ini_vars['management_vlan_id'] }}
- name GestRED
-!
-{% for interface in interfaces %}
-interface {{ interface['interface'] }}
- description {{ interface['interface'] }} {{ interface['description'] }}
- switchport trunk allowed vlan add {{ ini_vars['management_vlan_id'] }}
-{% endfor %}
-!
-int vlan{{ ini_vars['management_vlan_id'] }}
- description CONFIGURADO CON NORNIR 5.0
- ip address {{ nr.host['ip'] }} {{ nr.host['mask'] }}
-end
-!

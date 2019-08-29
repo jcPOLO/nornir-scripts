@@ -3,6 +3,7 @@ from helpers import check_directory
 from nornir.core.inventory import ConnectionOptions
 from nornir.core.filter import F
 from nornir.core import Nornir, Task
+from typing import Dict, List
 
 PLATFORM = ['ios', 'huawei']
 
@@ -43,7 +44,7 @@ def change_to_telnet(task: Task) -> None:
     )
 
 
-def process_data_trunk(data: list) -> list:
+def process_data_trunk(data: List) -> List[str]:
     result = []
     for interface in data:
 
@@ -58,8 +59,7 @@ def process_data_trunk(data: list) -> list:
 def trunk_description(task: Task) -> None:
     data = get_interfaces_status(task)
     interfaces = process_data_trunk(data)
-    task.host['interfaces'] = interfaces
-    task.host['interfaces'] = get_interface_description(interfaces, task)
+    task.host['interfaces']: Dict[str, str] = get_interface_description(interfaces, task)
 
 
 def filter_inventory(nr: Nornir) -> Nornir:
