@@ -34,10 +34,10 @@ def import_inventory_file(f: str) -> dict:
 
         for row in csv_reader:
 
-            hostname = row[0] if is_ip(row[0]) else '0.0.0.0'
-            host = row[3].replace(" ", "_")
-            model = row[4].lower().replace(" ", "_")
-            is_telnet = 't' in row[1].lower()
+            hostname = row[1] if is_ip(row[1]) else '0.0.0.0'
+            host = row[4].replace(" ", "_")
+            model = row[5].lower().replace(" ", "_")
+            is_telnet = 't' in row[2].lower()
 
             if host and host not in result.keys():
                 result[host] = {

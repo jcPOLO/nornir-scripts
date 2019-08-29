@@ -2,14 +2,20 @@ from nornir.plugins.tasks import networking
 from nornir.core import Task
 from typing import List, Dict
 import logging
+import netmiko.ssh_exception
 
 
 def get_config(task: Task) -> str:
-    r = task.run(task=networking.netmiko_send_command,
-                 name=f"SHOW RUN PARA EL HOST: {task.host}",
-                 command_string='show run',
-                 severity_level=logging.DEBUG,
-                 ).result
+    try:
+        r = task.run(task=networking.netmiko_send_command,
+                     name=f"SHOW RUN PARA EL HOST: {task.host}",
+                     command_string='show run',
+                     severity_level=logging.DEBUG,
+                     ).result
+    except netmiko.ssh_exception.NetMikoAuthenticationException:
+        raise netmiko.ssh_exception.NetMikoAuthenticationException
+    except:
+        raise ConnectionError
     return r
 
 

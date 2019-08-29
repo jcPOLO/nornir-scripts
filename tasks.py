@@ -34,6 +34,7 @@ def basic_configuration(template: str, task: Task) -> None:
     task.run(task=networking.netmiko_send_config,
              name=f"APLICAR PLANTILLA PARA {task.host.platform}",
              config_commands=task.host["config"].splitlines(),
+             severity_level=logging.DEBUG,
              )
 
 

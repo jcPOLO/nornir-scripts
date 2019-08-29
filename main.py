@@ -33,7 +33,11 @@ def main() -> None:
     t = menu.run()
 
     templates = t.templates
-    print(templates)
+
+    # Python program to show time by perf_counter()
+    from time import perf_counter
+    # Start the stopwatch / counter
+    t1_start = perf_counter()
 
     result = devices.run(task=make_magic,
                          name=f'CONTAINER TASK',
@@ -42,10 +46,24 @@ def main() -> None:
 
     print_result(result)
 
-    print("""
+    print(
+        """
         Failed HOSTS:
-        """)
+        --------------------------------------
+        """
+    )
+
     print(result.failed_hosts.keys())
+    print(
+        """
+        --------------------------------------
+        """
+    )
+    t1_stop = perf_counter()
+
+    elapsed_time = t1_stop - t1_start
+    print("Elapsed time during the whole program in seconds:",
+          '{0:.2f}'.format(elapsed_time))
 
 
 if __name__ == '__main__':
