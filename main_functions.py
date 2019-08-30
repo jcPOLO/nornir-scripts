@@ -10,7 +10,7 @@ PLATFORM = ['ios', 'huawei']
 
 def make_magic(task: Task, templates: str) -> None:
     # makes a log file output for every device accessed
-    session_log(task)
+    # session_log(task)
     # backup config
     backup_config(task)
     # if option 2 or 3 is selected
