@@ -12,10 +12,8 @@ def get_config(task: Task) -> str:
                      command_string='show run',
                      severity_level=logging.DEBUG,
                      ).result
-    except netmiko.ssh_exception.NetMikoAuthenticationException:
-        raise netmiko.ssh_exception.NetMikoAuthenticationException
-    except:
-        raise ConnectionError
+    except Exception as e:
+        raise e
     return r
 
 

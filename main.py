@@ -52,8 +52,9 @@ def main() -> None:
         --------------------------------------
         """
     )
-
-    print(result.failed_hosts.keys())
+    for host in result.failed_hosts:
+        print(f'Host: {host}')
+        print(f'|__{result.failed_hosts[host].exception.__class__.__name__}')
     print(
         """
         --------------------------------------
