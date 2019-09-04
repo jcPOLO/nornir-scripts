@@ -5,12 +5,12 @@ from nornir.core.filter import F
 from nornir.core import Nornir, Task
 from typing import Dict, List
 
-PLATFORM = ['ios', 'huawei']
+PLATFORM = ['ios', 'huawei', 'nxos']
 
 
 def make_magic(task: Task, templates: str) -> None:
     # makes a log file output for every device accessed
-    # session_log(task)
+    session_log(task)
     # backup config
     backup_config(task)
     # if option 2 or 3 is selected
@@ -64,7 +64,7 @@ def trunk_description(task: Task) -> None:
 
 def filter_inventory(nr: Nornir) -> Nornir:
     devices = nr
-    platform = input("Platform to filter: [ios/huawei]").lower()
+    platform = input("Platform to filter: [ios/huawei/nxos]").lower()
     site = str(input("Cod Inm:"))
 
     if platform in PLATFORM:

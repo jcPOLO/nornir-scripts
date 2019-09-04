@@ -4,6 +4,7 @@ from models.Template import Template
 
 
 class Menu(object):
+    platforms = ['ios', 'huawei', 'nxos']
     template_files = [
         '',
         'common.j2',
@@ -72,8 +73,8 @@ class Menu(object):
             try:
                 print(f"applied: -> {self.final_choices} <-")
                 t = Template(self.final_choices)
-                t.create_final_template('huawei')
-                t.create_final_template('ios')
+                for platform in self.platforms:
+                    t.create_final_template(platform)
                 return t
             except exit():
                 raise print('---------------- Error ----------------')

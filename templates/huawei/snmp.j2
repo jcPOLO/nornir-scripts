@@ -7,4 +7,5 @@ acl number 2060
  description Equipos con acceso SNMP rw   
  rule 10 permit source {{ ini_vars['snmp_ip'] }} 0
  rule 20 permit source {{ ini_vars['nagios_ip'] }} 0
+ rule 30 permit source 192.168.150.192 0.0.0.31
 #

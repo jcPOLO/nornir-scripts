@@ -1,5 +1,5 @@
 .idea
-nornir.log
+nornir.log*
 venv
 __pycache__/
 outputs/

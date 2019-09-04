@@ -8,6 +8,11 @@ ios:
     netmiko:
       extras: {}
 
+nxos:
+  connection_options:
+    netmiko:
+      extras: {}
+
 huawei:
   connection_options:
     netmiko:

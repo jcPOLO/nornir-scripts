@@ -7,7 +7,7 @@ from models.Menu import Menu
 
 CSV = 'inventory.csv'
 CFG_FILE = 'config.yaml'
-PLATFORM = ['ios', 'huawei']
+PLATFORM = ['ios', 'huawei', 'nxos']
 EXCLUDED_VLANS = [1, 1002, 1003, 1004, 1005]
 
 
@@ -15,12 +15,7 @@ def main() -> None:
     username = input("Username:")
     password = getpass.getpass()
 
-    try:
-        load_inventory(CSV)
-    except:
-        print('no se ha podido crear el hosts.yaml')
-
-    input("Files loaded. Press a key to continue...")
+    load_inventory(CSV)
 
     nr = InitNornir(config_file=CFG_FILE)
 
@@ -46,20 +41,23 @@ def main() -> None:
 
     print_result(result)
 
-    print(
-        """
+    if result.failed_hosts:
+        print(
+            """
         Failed HOSTS:
+            --------------------------------------
+        """
+        )
+        for host in result.failed_hosts:
+            print(f'Host: {host}')
+            print(f'|__{result.failed_hosts[host].exception.__class__.__name__}')
+
+        print(
+            """
         --------------------------------------
         """
-    )
-    for host in result.failed_hosts:
-        print(f'Host: {host}')
-        print(f'|__{result.failed_hosts[host].exception.__class__.__name__}')
-    print(
-        """
-        --------------------------------------
-        """
-    )
+        )
+
     t1_stop = perf_counter()
 
     elapsed_time = t1_stop - t1_start

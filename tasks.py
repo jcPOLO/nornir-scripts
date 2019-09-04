@@ -11,7 +11,7 @@ def get_interfaces_status(task: Task) -> List[Dict[str, str]]:
     r = ''
     if task.host.platform == 'huawei':
         r = huawei.get_interfaces_status(task)
-    if task.host.platform == 'ios':
+    if task.host.platform == 'ios' or task.host.platform == 'nxos':
         r = ios.get_interfaces_status(task)
 
     return r
@@ -46,7 +46,7 @@ def backup_config(task: Task) -> None:
 
     if task.host.platform == 'huawei':
         r = huawei.get_config(task)
-    if task.host.platform == 'ios':
+    if task.host.platform == 'ios' or task.host.platform == 'nxos':
         r = ios.get_config(task)
 
     check_directory(filename)
@@ -60,7 +60,7 @@ def get_interface_description(interfaces: List, task: Task) -> List[Dict[str, st
     for interface in interfaces:
         if task.host.platform == 'huawei':
             r = huawei.get_interface_description(interface, task)
-        if task.host.platform == 'ios':
+        if task.host.platform == 'ios' or task.host.platform == 'nxos':
             r = ios.get_interface_description(interface, task)
 
         if 'description' in r[0]:

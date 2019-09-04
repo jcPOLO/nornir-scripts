@@ -2,7 +2,6 @@ from nornir.plugins.tasks import networking
 from nornir.core import Task
 from typing import List, Dict
 import logging
-import netmiko.ssh_exception
 
 
 def get_config(task: Task) -> str:
