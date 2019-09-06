@@ -1,9 +1,10 @@
 from nornir import InitNornir
 from nornir.plugins.functions.text import print_result
 import getpass
-from bootstrap import load_inventory
+from bootstrap import load_inventory, get_ini_vars
 from main_functions import filter_inventory, make_magic
 from models.Menu import Menu
+
 
 CSV = 'inventory.csv'
 CFG_FILE = 'config.yaml'
@@ -15,8 +16,14 @@ def main() -> None:
     username = input("Username:")
     password = getpass.getpass()
 
-    load_inventory(CSV)
+    # configparser object
+    ini_vars = get_ini_vars()
+    config_vars = dict(ini_vars['CONFIG'])
 
+    # create hosts.yaml from csv
+    load_inventory(config_vars.get('csv_file', None))
+
+    # initialize Nornir object
     nr = InitNornir(config_file=CFG_FILE)
 
     nr.inventory.defaults.password = password
@@ -36,7 +43,8 @@ def main() -> None:
 
     result = devices.run(task=make_magic,
                          name=f'CONTAINER TASK',
-                         templates=templates
+                         templates=templates,
+                         ini_vars=ini_vars
                          )
 
     print_result(result)

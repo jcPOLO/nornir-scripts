@@ -1,10 +1,10 @@
 from nornir.core import Task
 from nornir.plugins.tasks import networking, text
 from models import huawei, ios
-from bootstrap import get_ini_vars
 from helpers import check_directory
 from typing import List, Dict
 import logging
+import configparser
 
 
 def get_interfaces_status(task: Task) -> List[Dict[str, str]]:
@@ -17,13 +17,16 @@ def get_interfaces_status(task: Task) -> List[Dict[str, str]]:
     return r
 
 
-def basic_configuration(template: str, task: Task) -> None:
-    ini_vars = get_ini_vars()
+def basic_configuration(task: Task, template: str, ini_vars: configparser) -> None:
+    # convert ini_vars configparser object to dict for templates
+    path = ini_vars.get('CONFIG', 'templates_path')
+    ini_vars = dict(ini_vars['GLOBAL'])
+
     # Transform inventory data to configuration via a template file
     r = task.run(task=text.template_file,
                  name=f"PLANTILLA A APLICAR PARA {task.host.platform}",
                  template=template,
-                 path=f"templates/{task.host.platform}",
+                 path=f"{path}{task.host.platform}",
                  ini_vars=ini_vars,
                  nr=task,
                  severity_level=logging.DEBUG,
@@ -38,10 +41,11 @@ def basic_configuration(template: str, task: Task) -> None:
              )
 
 
-def backup_config(task: Task) -> None:
+def backup_config(task: Task, path: str = 'backups/') -> None:
+    if path is None:
+        path = 'backups/'
     r = ''
     file = f'{task.host}-{task.host.hostname}.cfg'
-    path = './backups/'
     filename = f'{path}{file}'
 
     if task.host.platform == 'huawei':

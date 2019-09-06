@@ -4,33 +4,37 @@ from nornir.core.inventory import ConnectionOptions
 from nornir.core.filter import F
 from nornir.core import Nornir, Task
 from typing import Dict, List
+import configparser
 
 PLATFORM = ['ios', 'huawei', 'nxos']
 
 
-def make_magic(task: Task, templates: str) -> None:
+def make_magic(task: Task, templates: str, ini_vars: configparser) -> None:
+    config_vars = dict(ini_vars['CONFIG'])
     # makes a log file output for every device accessed
-    session_log(task)
+    session_log(task, config_vars.get('outputs_path', None))
     # backup config
-    backup_config(task)
+    backup_config(task, config_vars.get('backups_path', None))
     # if option 2 or 3 is selected
     if 'trunk_description.j2' in templates or 'management.j2' in templates:
         print(f"{'trunk_description.j2' in templates} y {'management.j2' in templates}")
         trunk_description(task)
     # apply final template
-    config(task)
+    config(task, ini_vars)
 
 
-def config(task: Task) -> None:
+def config(task: Task, ini_vars: configparser) -> None:
     # record configuration in the device
     template = 'final.j2'
-    basic_configuration(template, task)
+    basic_configuration(task, template, ini_vars)
 
 
-def session_log(task: Task) -> str:
+def session_log(task: Task, path: str = 'outputs/') -> str:
+    if path is None:
+        path = 'outputs/'
     file = f'{task.host}-{task.host.hostname}-output.txt'
-    path = './outputs/'
     filename = f'{path}{file}'
+
     check_directory(path)
     group_object = task.host.groups.refs[0]
     group_object.connection_options["netmiko"].extras["session_log"] = filename

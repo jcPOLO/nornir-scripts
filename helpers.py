@@ -23,3 +23,12 @@ def check_directory(path: str):
 def is_int(v: any) -> bool:
     v = str(v).strip()
     return v == '0' or (v if v.find('..') > -1 else v.lstrip('-+').rstrip('0').rstrip('.')).isdigit()
+
+
+def get_platforms(path='templates') -> list:
+    if not os.path.exists(os.path.dirname(path)):
+        try:
+            return os.listdir(path)
+        except Exception as e:
+            raise e
+
