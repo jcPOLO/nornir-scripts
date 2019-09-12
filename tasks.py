@@ -54,7 +54,7 @@ def backup_config(task: Task, path: str = 'backups/') -> None:
         r = ios.get_config(task)
 
     check_directory(filename)
-    with open(filename, 'a') as f:
+    with open(filename, 'w') as f:
         f.write(r)
 
 

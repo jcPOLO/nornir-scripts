@@ -1,14 +1,12 @@
 from nornir import InitNornir
 from nornir.plugins.functions.text import print_result
 import getpass
-from bootstrap import load_inventory, get_ini_vars
 from main_functions import filter_inventory, make_magic
 from models.Menu import Menu
+from models.Bootstrap import Bootstrap
 
 
-CSV = 'inventory.csv'
 CFG_FILE = 'config.yaml'
-PLATFORM = ['ios', 'huawei', 'nxos']
 EXCLUDED_VLANS = [1, 1002, 1003, 1004, 1005]
 
 
@@ -16,12 +14,11 @@ def main() -> None:
     username = input("Username:")
     password = getpass.getpass()
 
-    # configparser object
-    ini_vars = get_ini_vars()
-    config_vars = dict(ini_vars['CONFIG'])
+    # creates hosts.yaml from csv file, ini file could be passed as arg, by default .global.ini
+    bootstrap = Bootstrap()
 
-    # create hosts.yaml from csv
-    load_inventory(config_vars.get('csv_file', None))
+    # configparser object
+    ini_vars = bootstrap.get_ini_vars()
 
     # initialize Nornir object
     nr = InitNornir(config_file=CFG_FILE)
@@ -31,6 +28,7 @@ def main() -> None:
 
     devices = filter_inventory(nr)
 
+    # show the main menu
     menu = Menu()
     t = menu.run()
 
@@ -75,3 +73,4 @@ def main() -> None:
 
 if __name__ == '__main__':
     main()
+

@@ -68,7 +68,7 @@ def trunk_description(task: Task) -> None:
 
 def filter_inventory(nr: Nornir) -> Nornir:
     devices = nr
-    platform = input("Platform to filter: [ios/huawei/nxos]").lower()
+    platform = input(f"Platform to filter: {nr.inventory.groups.keys()}").lower()
     site = str(input("Cod Inm:"))
 
     if platform in PLATFORM:
