@@ -33,39 +33,3 @@ user-interface vty 0 4
  authentication-mode aaa
  protocol inbound ssh
 #
-
-und hwtacacs enable
-hwtacacs-server template acs
- hwtacacs-server authentication 172.27.22.35
- hwtacacs-server authentication 172.27.22.34 secondary
- hwtacacs-server authorization 172.27.22.35
- hwtacacs-server authorization 172.27.22.34 secondary
- hwtacacs-server source-ip 1.43.5.233
- hwtacacs-server shared-key cipher %@%@;{D3@i'Ze0(NT_AzqZIFwo/&%@%@
- undo hwtacacs-server user-name domain-included
-
-aaa
- authentication-scheme default
- authentication-scheme tacacs
-  authentication-mode hwtacacs local
-  authentication-super hwtacacs super
- authorization-scheme default
- authorization-scheme tacacs
-  authorization-mode  hwtacacs local
- accounting-scheme default
- domain default
- domain default_admin
-  authentication-scheme tacacs
-  authorization-scheme tacacs
-  hwtacacs-server acs
-
-user-interface con 0
- authentication-mode password
- user privilege level 15
- set authentication password cipher %@%@Tm8f3TF{lQ]EwA/Kp`h1~!+%>*z09M^^QNkW65@ql!x9!+(~%@%@
- idle-timeout 0 0
-user-interface vty 0 4
- authentication-mode aaa
- protocol inbound all
-
-lldp management-address 1.43.5.233
