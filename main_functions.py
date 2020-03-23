@@ -1,4 +1,4 @@
-from tasks import backup_config, basic_configuration, get_interface_description, get_interfaces_status
+from tasks import backup_config, basic_configuration, get_interface_description, get_interfaces_status, get_tmp
 from helpers import check_directory
 from nornir.core.inventory import ConnectionOptions
 from nornir.core.filter import F
@@ -26,11 +26,7 @@ def servet_bug(task: Task) -> None:
     session_log(task)
     # backup config
     backup_config(task)
-    r = task.run(task=networking.netmiko_send_command,
-                 name='MUESTRA EL USO DE MEMORIA PARA TMP DE STACKS',
-                 command_string=f'show platform sowftware mount switch active R0',
-                 use_textfsm=True
-                 ).result
+    get_tmp(task)
 
 
 def config(task: Task) -> None:

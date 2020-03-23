@@ -79,3 +79,11 @@ def get_interface_description(interfaces: List, task: Task) -> List[Dict[str, st
         result.append(port_dict)
 
     return result
+
+
+def get_tmp(task: Task):
+    r = task.run(task=networking.netmiko_send_command,
+                 name='MUESTRA EL USO DE MEMORIA PARA TMP DE STACKS',
+                 command_string=f'show platform sowftware mount switch active R0',
+                 use_textfsm=True
+                 ).result
