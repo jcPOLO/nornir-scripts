@@ -12,7 +12,6 @@ class Menu(object):
         'trunk_description.j2',
         'management.j2',
         'ssh.j2',
-        'tmp'
     ]
 
     def __init__(self) -> None:
@@ -22,7 +21,7 @@ class Menu(object):
             "3": self.template_files[3],
             "4": self.template_files[4],
             "5": self.template_files[5],
-            "6": self.template_files[6],
+            "s": self.servet_bug,
             "a": self.apply,
             "z": self.clear,
             "e": self.exit,
@@ -41,7 +40,7 @@ class Menu(object):
         3. Description for trunk interfaces
         4. Management network (mgmt vlan l2 & l3, trunk allowed add)
         5. SSH configuration.
-        6. Show tmp stack memory.
+        s. Show tmp stack memory (servet bug).
 
         a. Apply          z. Clear selections             e. Exit
         
@@ -83,6 +82,12 @@ class Menu(object):
                 raise print('---------------- Error ----------------')
         else:
             print("{0} choices selected are not valid".format(self.final_choices))
+
+    def servet_bug(self) -> None:
+        self.final_choices = ['servet_bug']
+        a = 'servet_bug'
+        print(f'Show tmp selected.\n')
+        return a
 
     def clear(self) -> None:
         self.final_choices = []

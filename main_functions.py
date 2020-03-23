@@ -21,6 +21,18 @@ def make_magic(task: Task, templates: str) -> None:
     config(task)
 
 
+def servet_bug(task: Task) -> None:
+    # makes a log file output for every device accessed
+    session_log(task)
+    # backup config
+    backup_config(task)
+    r = task.run(task=networking.netmiko_send_command,
+                 name='MUESTRA EL USO DE MEMORIA PARA TMP DE STACKS',
+                 command_string=f'show platform sowftware mount switch active R0',
+                 use_textfsm=True
+                 ).result
+
+
 def config(task: Task) -> None:
     # record configuration in the device
     template = 'final.j2'

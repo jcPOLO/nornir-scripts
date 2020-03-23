@@ -40,3 +40,5 @@ def get_neighbor(interface: str, task: Task):
                  command_string=f'dis ldp nei {interface}',
                  use_textfsm=True
                  ).result
+
+
