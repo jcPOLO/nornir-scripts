@@ -15,7 +15,7 @@ def main() -> None:
     username = input("Username:")
     password = getpass.getpass()
 
-    # load_inventory(CSV)
+    load_inventory(CSV)
 
     nr = InitNornir(config_file=CFG_FILE)
 
