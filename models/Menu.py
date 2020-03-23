@@ -11,7 +11,8 @@ class Menu(object):
         'snmp.j2',
         'trunk_description.j2',
         'management.j2',
-        'ssh.j2'
+        'ssh.j2',
+        'tmp'
     ]
 
     def __init__(self) -> None:
@@ -21,6 +22,7 @@ class Menu(object):
             "3": self.template_files[3],
             "4": self.template_files[4],
             "5": self.template_files[5],
+            "6": self.template_files[6],
             "a": self.apply,
             "z": self.clear,
             "e": self.exit,
@@ -39,6 +41,7 @@ class Menu(object):
         3. Description for trunk interfaces
         4. Management network (mgmt vlan l2 & l3, trunk allowed add)
         5. SSH configuration.
+        6. Show tmp stack memory.
 
         a. Apply          z. Clear selections             e. Exit
         
