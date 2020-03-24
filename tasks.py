@@ -82,8 +82,16 @@ def get_interface_description(interfaces: List, task: Task) -> List[Dict[str, st
 
 
 def get_tmp(task: Task):
-    r = task.run(task=networking.netmiko_send_command,
-                 name='MUESTRA EL USO DE MEMORIA PARA TMP DE STACKS',
-                 command_string=f'show platform software mount switch active R0 | i ^tmpfs.*\/tmp ',
-                 use_textfsm=False
-                 ).result
+    r = ''
+    if task.host.platform == 'huawei':
+        r = "Huawei not valid"
+    if task.host.platform == 'ios' or task.host.platform == 'nxos':
+        r = ios.get_switch_details(task)
+
+    print(r[0])
+
+    # r = task.run(task=networking.netmiko_send_command,
+    #              name='MUESTRA EL USO DE MEMORIA PARA TMP DE STACKS',
+    #              command_string=f'show platform software mount switch active R0 | i ^tmpfs.*\/tmp ',
+    #              use_textfsm=False
+    #              ).result

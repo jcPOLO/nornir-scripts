@@ -43,3 +43,13 @@ def get_neighbor(interface: str, task: Task):
                  command_string=f'show cdp nei {interface} det',
                  use_textfsm=True
                  ).result
+
+
+def get_switch_details(task: Task) -> List[Dict[str, str]]:
+    r = task.run(task=networking.netmiko_send_command,
+                 name=f'SHOW SWITCH DETAILS: {task.host}',
+                 command_string='show switch details',
+                 use_textfsm=True,
+                 severity_level=logging.DEBUG,
+                 ).result
+    return r
