@@ -5,6 +5,7 @@ from bootstrap import get_ini_vars
 from helpers import check_directory
 from typing import List, Dict
 import logging
+import re
 
 
 def get_interfaces_status(task: Task) -> List[Dict[str, str]]:
@@ -86,12 +87,19 @@ def get_tmp(task: Task):
     if task.host.platform == 'huawei':
         r = "Huawei not valid"
     if task.host.platform == 'ios' or task.host.platform == 'nxos':
-        r = ios.get_switch_details(task)
+        r = ios.get_switch_detail(task)
+        stack_switches_num = len(r)
 
-    print(r[0])
+        for i in range(stack_switches_num):
+             r = task.run(task=networking.netmiko_send_command,
+                          name='MUESTRA EL USO DE MEMORIA PARA TMP DE STACKS',
+                          command_string=f'show platform software mount switch {i + 1} R0 | i ^tmpfs.*\/tmp_',
+                          use_textfsm=False
+                         ).result
+             r1 = re.findall(r'100%', r)
+             r2 = re.findall(r'9.%', r)
+             if r1 or r2:
+                 print(f'Host: {task.host.hostname} memoria al: {r1} {r2}')
 
-    # r = task.run(task=networking.netmiko_send_command,
-    #              name='MUESTRA EL USO DE MEMORIA PARA TMP DE STACKS',
-    #              command_string=f'show platform software mount switch active R0 | i ^tmpfs.*\/tmp ',
-    #              use_textfsm=False
-    #              ).result
+
+

@@ -45,10 +45,10 @@ def get_neighbor(interface: str, task: Task):
                  ).result
 
 
-def get_switch_details(task: Task) -> List[Dict[str, str]]:
+def get_switch_detail(task: Task) -> List[Dict[str, str]]:
     r = task.run(task=networking.netmiko_send_command,
                  name=f'SHOW SWITCH DETAILS: {task.host}',
-                 command_string='show switch details',
+                 command_string='show switch detail',
                  use_textfsm=True,
                  severity_level=logging.DEBUG,
                  ).result

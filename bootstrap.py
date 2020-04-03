@@ -38,10 +38,11 @@ def import_inventory_file(f: str) -> dict:
 
             for row in csv_reader:
 
-                hostname = row[1] if is_ip(row[1]) else '0.0.0.0'
-                host = row[4].replace(" ", "_")
-                model = row[5].lower().replace(" ", "_")
-                is_telnet = 't' in row[2].lower()
+                hostname = row[2] if is_ip(row[2]) else '0.0.0.0'
+                host = row[1].replace(" ", "_")
+                model = row[3].lower().replace(" ", "_")
+                is_telnet = 't' in row[4].lower()
+                site = row[0]
 
                 if host and host not in result.keys():
                     result[host] = {
@@ -50,6 +51,9 @@ def import_inventory_file(f: str) -> dict:
                         'groups': [
                             'ios_telnet' if is_telnet and model == 'ios' else model
                         ],
+                        'data': {
+                            'site': site
+                        }
                     }
                     if is_telnet and model == 'ios':
                         result[host]['port'] = 23
