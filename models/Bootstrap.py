@@ -32,6 +32,7 @@ class Bootstrap(object):
         except Exception as e:
             raise e
 
+
     # Return a dictionary from imported csv file
     def import_inventory_file(self) -> dict:
         """
@@ -58,13 +59,17 @@ class Bootstrap(object):
 
                 for row in csv_reader:
 
-                    hostname = row[0] if is_ip(row[0]) else None
-                    host = row[4].replace(" ", "_") or None
-                    platform = row[2].lower().replace(" ", "_") if row[2].lower().replace(" ", "_") in platforms else None
-                    model = row[6].replace(" ", "_") or None
-                    serial = row[7].replace(" ", "_") or None
+                    site_code = row[0]
+                    ip = row[5]
+                    mask = row[6]
 
-                    is_telnet = 't' in row[1].lower() and 's' not in row[1].lower()
+                    hostname = row[2] if is_ip(row[2]) else None
+                    host = row[1].replace(" ", "_") or None
+                    platform = row[3].lower().replace(" ", "_") if row[3].lower().replace(" ", "_") in platforms else None
+                    #model = row[3].replace(" ", "_") or None
+                    #serial = row[7].replace(" ", "_") or None
+
+                    is_telnet = 't' in row[4].lower() and 's' not in row[4].lower()
 
                     # remove duplicated hostnames
                     if None not in (hostname, host, platform) and host not in result.keys():
@@ -75,9 +80,11 @@ class Bootstrap(object):
                                 'ios_telnet' if is_telnet and platform == 'ios' else platform
                             ],
                             'data': {
-                                'site_code': '',
-                                'model': model,
-                                'serial': serial,
+                                'site_code': site_code,
+                                'model': platform,
+                                #'serial': serial,
+                                'ip': ip,
+                                'mask': mask,
                                 'role': {}
                             }
 
@@ -107,3 +114,4 @@ class Bootstrap(object):
                 f.write(yml)
         except Exception as e:
             raise e
+
