@@ -1,8 +1,9 @@
-from tasks import backup_config, basic_configuration, get_interface_description, get_interfaces_status
 from helpers import check_directory
-from nornir.core.inventory import ConnectionOptions
-from nornir.core.filter import F
 from nornir.core import Nornir, Task
+from nornir.core.filter import F
+from nornir.core.inventory import ConnectionOptions
+from tasks import backup_config, basic_configuration, \
+    get_interface_description, get_interfaces_status
 from typing import Dict, List
 import configparser
 
@@ -17,7 +18,8 @@ def make_magic(task: Task, templates: str, ini_vars: configparser) -> None:
     backup_config(task, config_vars.get('backups_path', None))
     # if option 2 or 3 is selected
     if 'trunk_description.j2' in templates or 'management.j2' in templates:
-        print(f"{'trunk_description.j2' in templates} y {'management.j2' in templates}")
+        print(f"{'trunk_description.j2' in templates} \
+              y {'management.j2' in templates}")
         trunk_description(task)
     # apply final template
     config(task, ini_vars)
@@ -44,12 +46,14 @@ def session_log(task: Task, path: str = 'outputs/') -> str:
 def change_to_telnet(task: Task) -> None:
     task.host.port = 23
     task.host.connection_options['netmiko'] = ConnectionOptions(
-        extras={"device_type": 'cisco_ios_telnet', "session_log": session_log(task)}
+        extras={"device_type": 'cisco_ios_telnet',
+                "session_log": session_log(task)}
     )
 
 
 def process_data_trunk(data: List) -> List[str]:
     result = []
+    import ipdb; ipdb.set_trace()
     for interface in data:
 
         if 'vlan' in interface.keys():
@@ -62,8 +66,10 @@ def process_data_trunk(data: List) -> List[str]:
 
 def trunk_description(task: Task) -> None:
     data = get_interfaces_status(task)
+    import ipdb; ipdb.set_trace()
     interfaces = process_data_trunk(data)
-    task.host['interfaces']: Dict[str, str] = get_interface_description(interfaces, task)
+    task.host['interfaces']: Dict[str, str] = get_interface_description(
+        interfaces, task)
 
 
 def filter_inventory(nr: Nornir) -> Nornir:
@@ -73,7 +79,7 @@ def filter_inventory(nr: Nornir) -> Nornir:
     for host in nr.inventory.hosts.values():
         platforms.add(host.platform)
         sites.add(host['site_code'])
-        models.add(host['model'])
+        # models.add(host['model'])
 
     # platforms = {host.platform for host in nr.inventory.hosts.values()}
     # sites = {host['site_code'] for host in nr.inventory.hosts.values()}
@@ -81,7 +87,7 @@ def filter_inventory(nr: Nornir) -> Nornir:
 
     platform = input(f"Platform to filter - {', '.join(platforms)}:").lower()
     site = str(input(f"Cod Inm - {', '.join(sites)}:"))
-    model = str(input(f"Cod Inm - {', '.join(models)}:"))
+    # model = str(input(f"Cod Inm - {', '.join(models)}:"))
 
     if platform in platforms:
         print(f'Filter by platform: { platform }')
