@@ -29,7 +29,7 @@ def basic_configuration(task: Task, template: str, ini_vars: configparser) -> No
                  path=f"{path}{task.host.platform}",
                  ini_vars=ini_vars,
                  nr=task,
-                 severity_level=logging.DEBUG,
+                 #severity_level=logging.DEBUG,
                  )
     # Save the compiled configuration into a host variable
     task.host["config"] = r.result
@@ -37,7 +37,7 @@ def basic_configuration(task: Task, template: str, ini_vars: configparser) -> No
     task.run(task=networking.netmiko_send_config,
              name=f"APLICAR PLANTILLA PARA {task.host.platform}",
              config_commands=task.host["config"].splitlines(),
-             # severity_level=logging.DEBUG,
+             #severity_level=logging.DEBUG,
              )
 
 

@@ -10,3 +10,7 @@ ip access-list standard 60
 !
 snmp-server community {{ ini_vars['snmp_w_password'] }} rw 60
 !
+snmp-server group admin v3 priv access 50
+snmp-server user comms admin v3 auth sha {{ ini_vars['snmp_w_password'] }} priv aes 128 {{ ini_vars['snmp_w_password'] }}
+lldp run
+!

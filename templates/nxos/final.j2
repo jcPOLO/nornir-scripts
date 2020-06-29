@@ -1,13 +1,14 @@
 !
-no ip access-list 60
-no ip access-list SNMP
+vlan {{ ini_vars['management_vlan_id'] }}
+ name GestRED
 !
-ip access-list SNMP
- remark Equipos con acceso SNMP rw
- permit ip {{ ini_vars['snmp_ip'] }} 0.0.0.0 any
- permit ip {{ ini_vars['nagios_ip'] }} 0.0.0.0 any
- permit ip 192.168.150.192 0.0.0.31 any
+{% for interface in nr.host['interfaces'] %}
+interface {{ interface['interface'] }}
+ switchport trunk allowed vlan add {{ ini_vars['management_vlan_id'] }}
+{% endfor %}
 !
-snmp-server community {{ ini_vars['snmp_w_password'] }} rw
-snmp-server community {{ ini_vars['snmp_w_password'] }} use-ipv4acl SNMP
+int vlan{{ ini_vars['management_vlan_id'] }}
+ description Vlan{{ ini_vars['management_vlan_id'] }} configurada con Nornir
+ ip address {{ nr.host['ip'] }} {{ nr.host['mask'] }}
+end
 !
