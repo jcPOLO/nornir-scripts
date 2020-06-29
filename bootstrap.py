@@ -43,6 +43,8 @@ def import_inventory_file(f: str) -> dict:
                 model = row[3].lower().replace(" ", "_")
                 is_telnet = 't' in row[4].lower()
                 site = row[0]
+                ip = row[5]
+                mask = row[6]
 
                 if host and host not in result.keys():
                     result[host] = {
@@ -52,7 +54,9 @@ def import_inventory_file(f: str) -> dict:
                             'ios_telnet' if is_telnet and model == 'ios' else model
                         ],
                         'data': {
-                            'site': site
+                            'site': site,
+                            'ip': ip,
+                            'mask': mask,
                         }
                     }
                     if is_telnet and model == 'ios':
