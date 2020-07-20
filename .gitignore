@@ -15,3 +15,5 @@ templates/ios/final.j2
 templates/huawei/final.j2
 templates/nxos/final.j2
 templates/asa/final.j2
+/.vs
+
