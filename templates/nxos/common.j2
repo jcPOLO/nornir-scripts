@@ -5,7 +5,6 @@ enable secret {{ ini_vars['console_password'] }}
 !
 cdp enable
 !
-username comunicaciones password 2018.%Lote7 role network-admin
 username {{ ini_vars['user_lote7'] }} password {{ ini_vars['user_lote7_password'] }} role network-admin
 username {{ ini_vars['user_lote1'] }} password {{ ini_vars['user_lote1_password'] }} role network-admin
 !

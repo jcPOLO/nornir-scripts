@@ -53,7 +53,6 @@ def change_to_telnet(task: Task) -> None:
 
 def process_data_trunk(data: List) -> List[str]:
     result = []
-    import ipdb; ipdb.set_trace()
     for interface in data:
 
         if 'vlan' in interface.keys():
@@ -66,7 +65,6 @@ def process_data_trunk(data: List) -> List[str]:
 
 def trunk_description(task: Task) -> None:
     data = get_interfaces_status(task)
-    import ipdb; ipdb.set_trace()
     interfaces = process_data_trunk(data)
     task.host['interfaces']: Dict[str, str] = get_interface_description(
         interfaces, task)
