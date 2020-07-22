@@ -32,7 +32,6 @@ class Bootstrap(object):
         except Exception as e:
             raise e
 
-
     # Return a dictionary from imported csv file
     def import_inventory_file(self) -> dict:
         """
@@ -66,12 +65,12 @@ class Bootstrap(object):
                     hostname = row[2] if is_ip(row[2]) else None
                     host = row[1].replace(" ", "_") or None
                     platform = row[3].lower().replace(" ", "_") if row[3].lower().replace(" ", "_") in platforms else None
-                    #model = row[3].replace(" ", "_") or None
-                    #serial = row[7].replace(" ", "_") or None
+                    # model = row[3].replace(" ", "_") or None
+                    # serial = row[7].replace(" ", "_") or None
 
                     is_telnet = 't' in row[4].lower() and 's' not in row[4].lower()
 
-                    # remove duplicated hostnames
+                    # remove duplicated hostname
                     if None not in (hostname, host, platform) and host not in result.keys():
                         result[host] = {
                             'hostname': hostname,
@@ -82,7 +81,7 @@ class Bootstrap(object):
                             'data': {
                                 'site_code': site_code,
                                 'model': platform,
-                                #'serial': serial,
+                                # 'serial': serial,
                                 'ip': ip,
                                 'mask': mask,
                                 'role': {}
@@ -114,4 +113,3 @@ class Bootstrap(object):
                 f.write(yml)
         except Exception as e:
             raise e
-

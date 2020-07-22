@@ -22,6 +22,7 @@ class Menu(object):
             "4": self.template_files[4],
             "5": self.template_files[5],
             "a": self.apply,
+            "s": self.show,
             "z": self.clear,
             "e": self.exit,
 
@@ -40,7 +41,7 @@ class Menu(object):
         4. Management network (mgmt vlan l2 & l3, trunk allowed add)
         5. SSH configuration.
 
-        a. Apply          z. Clear selections             e. Exit
+        a. Apply      s. Show template      z. Clear selections             e. Exit
         
         """)
 
@@ -48,17 +49,18 @@ class Menu(object):
         print(f' Templates selected: {self.final_choices}\n')
 
     # TODO: Review this method that probable should return None instead
-    def run(self) -> callable:
+    def run(self, printable='') -> callable:
 
         self.display_menu()
+        print(printable)
+
         if self.final_choices:
             self.display_final_choices()
         while True:
             choice = input("Enter an option: ")
             template = self.choices.get(choice)
-            if is_int(choice):
-                choice = int(choice)
-            if is_int(choice) and choice < len(Menu.template_files):
+
+            if is_int(choice) and 0 < int(choice) < len(Menu.template_files):
                 if template not in self.final_choices:
                     self.final_choices.append(template)
                 self.display_menu()
@@ -81,10 +83,25 @@ class Menu(object):
         else:
             print("{0} choices selected are not valid".format(self.final_choices))
 
+    def show(self) -> None:
+        if self.final_choices:
+            print(f"Which platform? {self.platforms}")
+            platform = input("Enter an option: ")
+            result = []
+            if platform in self.platforms:
+
+                for t in self.final_choices:
+                    with open(f'templates/{platform}/{t}') as f:
+                        result.append(f.read())
+                result_str = ''.join(result)
+                self.run(result_str)
+            else:
+                print("{0} is not a valid choice".format(platform))
+
     def clear(self) -> None:
         self.final_choices = []
-        print(f'Selected templates cleared.\n')
         self.run()
+        print(f'Selected templates cleared.\n')
 
     def exit(self) -> None:
         self.final_choices = []
