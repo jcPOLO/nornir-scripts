@@ -57,18 +57,7 @@ class Menu(object):
         if self.final_choices:
             self.display_final_choices()
         while True:
-            choice = input("Enter an option: ")
-            template = self.choices.get(choice)
-
-            if is_int(choice) and 0 < int(choice) < len(Menu.template_files):
-                if template not in self.final_choices:
-                    self.final_choices.append(template)
-                self.display_menu()
-                self.display_final_choices()
-            elif choice in self.choices.keys():
-                return template()
-            else:
-                print("{0} is not a valid choice".format(choice))
+            self.get_choice()
 
     def apply(self) -> Template:
         if self.final_choices:
@@ -107,3 +96,17 @@ class Menu(object):
         self.final_choices = []
         print(f'Bye!\n')
         sys.exit()
+
+    def get_choice(self):
+        choice = input("Enter an option: ")
+        template = self.choices.get(choice)
+
+        if is_int(choice) and 0 < int(choice) < len(Menu.template_files):
+            if template not in self.final_choices:
+                self.final_choices.append(template)
+            self.display_menu()
+            self.display_final_choices()
+        elif choice in self.choices.keys():
+            return template()
+        else:
+            print("{0} is not a valid choice".format(choice))
