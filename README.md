@@ -1,0 +1,6 @@
+- 1.Pasar en TODOS el 1. y el 2. (common y el SNMP)
+- 2.Pasar en TODOS el 4. (management)
+- 3.Bloquear tacacs a toda la red de gestion del sitio (172.25 o lo que sea).
+- 4.Bloquear tacacs a toda la nueva red de gestred.
+- 5.Pasar SOLO EN IOS el 6. (TACACS gestred).
+- 6.Entrar en cada IOS a cambiar la ruta por defecto modificando la actual con mas metrica. Si es ip default gateway no hace falta eso.

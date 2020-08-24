@@ -6,11 +6,11 @@ aaa authorization exec VTY group tacacs+ local
 !
 aaa session-id common
 !
-!ip tacacs source-interface Vlan50
+!ip tacacs source-interface Vlan1099
 !
 tacacs-server host {{ ini_vars['tacacs1_ip'] }}
 tacacs-server host {{ ini_vars['tacacs2_ip'] }}
-tacacs-server timeout 2
+tacacs-server timeout 1
 tacacs-server directed-request
 tacacs-server key {{ ini_vars['tacacs_key'] }}
 !

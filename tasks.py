@@ -12,7 +12,7 @@ def get_interfaces_status(task: Task) -> List[Dict[str, str]]:
     if task.host.platform == 'huawei':
         r = huawei.get_interfaces_status(task)
     if task.host.platform == 'ios' or task.host.platform == 'nxos':
-        r = ios.get_interfaces_status(task)
+        r = ios.get_interfaces_trunk(task)
 
     return r
 

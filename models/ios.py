@@ -26,6 +26,16 @@ def get_interfaces_status(task: Task) -> List[Dict[str, str]]:
     return r
 
 
+def get_interfaces_trunk(task: Task) -> List[Dict[str, str]]:
+    r = task.run(task=networking.netmiko_send_command,
+                 name=f'SHOW INTERFACE TRUNK PARA EL HOST: {task.host}',
+                 command_string='show interfaces trunk',
+                 use_textfsm=True,
+                 severity_level=logging.DEBUG,
+                 ).result
+    return r
+
+
 def get_interface_description(interface: str, task: Task) -> List[Dict[str, str]]:
     r = task.run(task=networking.netmiko_send_command,
                  name=f'SHOW INTERFACE {interface} PARA EL HOST: {task.host}',

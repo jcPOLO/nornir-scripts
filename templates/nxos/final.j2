@@ -1,12 +1,14 @@
 !
-tacacs-server timeout 2
+vlan {{ ini_vars['management_vlan_id'] }}
+ name GestRED
 !
-enable secret {{ ini_vars['console_password'] }}
+{% for interface in nr.host['interfaces'] %}
+interface {{ interface['interface'] }}
+ switchport trunk allowed vlan add {{ ini_vars['management_vlan_id'] }}
+{% endfor %}
 !
-cdp enable
+int vlan{{ ini_vars['management_vlan_id'] }}
+ description Vlan{{ ini_vars['management_vlan_id'] }} configurada con Nornir
+ ip address {{ nr.host['ip'] }} {{ nr.host['mask'] }}
+end
 !
-username comunicaciones password 2018.%Lote7 role network-admin
-username {{ ini_vars['user_lote7'] }} password {{ ini_vars['user_lote7_password'] }} role network-admin
-username {{ ini_vars['user_lote1'] }} password {{ ini_vars['user_lote1_password'] }} role network-admin
-!
-

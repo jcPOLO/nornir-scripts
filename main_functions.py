@@ -55,10 +55,16 @@ def process_data_trunk(data: List) -> List[str]:
     result = []
     for interface in data:
 
-        if 'vlan' in interface.keys():
-            interface['link'] = interface['vlan']
-        if interface['link'] == 'trunk':
-            result.append(interface['port'])
+        # if 'vlan' in interface.keys():  # ios has VLAN key, huawei doesnt for
+        #    interface['link'] = interface['vlan']
+        try:
+            if interface['link'] == 'trunk':  # huawei - display port vlan
+                result.append(interface['port'])
+                print(f"{interface['port']} is trunking")
+        except KeyError:
+            if interface['status'] == 'trunking':  # ios - show interfaces trunk
+                result.append(interface['port'])
+                print(f"{interface['port']} is trunking")
 
     return result
 

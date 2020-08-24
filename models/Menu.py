@@ -11,7 +11,8 @@ class Menu(object):
         'snmp.j2',
         'trunk_description.j2',
         'management.j2',
-        'ssh.j2'
+        'ssh.j2',
+        'tacacs_gestred.j2'
     ]
 
     def __init__(self) -> None:
@@ -21,6 +22,7 @@ class Menu(object):
             "3": self.template_files[3],
             "4": self.template_files[4],
             "5": self.template_files[5],
+            "6": self.template_files[6],
             "a": self.apply,
             "s": self.show,
             "z": self.clear,
@@ -40,6 +42,7 @@ class Menu(object):
         3. Description for trunk interfaces
         4. Management network (mgmt vlan l2 & l3, trunk allowed add)
         5. SSH configuration.
+        6. Tacacs para GestRED.
 
         a. Apply      s. Show template      z. Clear selections             e. Exit
         
@@ -57,7 +60,20 @@ class Menu(object):
         if self.final_choices:
             self.display_final_choices()
         while True:
-            self.get_choice()
+            choice = input("Enter an option: ")
+            template = self.choices.get(choice)
+
+            if is_int(choice):
+                choice = int(choice)
+            if is_int(choice) and choice < len(Menu.template_files):
+                if template not in self.final_choices:
+                    self.final_choices.append(template)
+                self.display_menu()
+                self.display_final_choices()
+            elif choice in self.choices.keys():
+                return template()
+            else:
+                print("{0} is not a valid choice".format(choice))
 
     def apply(self) -> Template:
         if self.final_choices:
@@ -97,16 +113,3 @@ class Menu(object):
         print(f'Bye!\n')
         sys.exit()
 
-    def get_choice(self):
-        choice = input("Enter an option: ")
-        template = self.choices.get(choice)
-
-        if is_int(choice) and 0 < int(choice) < len(Menu.template_files):
-            if template not in self.final_choices:
-                self.final_choices.append(template)
-            self.display_menu()
-            self.display_final_choices()
-        elif choice in self.choices.keys():
-            return template()
-        else:
-            print("{0} is not a valid choice".format(choice))

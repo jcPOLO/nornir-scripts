@@ -16,4 +16,6 @@ templates/huawei/final.j2
 templates/nxos/final.j2
 templates/asa/final.j2
 /.vs
-
+*.csv
+new_fw_context.py
+script_basico.py
