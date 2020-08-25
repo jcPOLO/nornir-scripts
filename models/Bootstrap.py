@@ -67,9 +67,9 @@ class Bootstrap(object):
                     hostname = row[2] if is_ip(row[2]) else None
                     host = row[1].replace(" ", "_") or None
                     platform = row[3].lower().replace(" ", "_") if row[3].lower().replace(" ", "_") in platforms else None
-                    # model = row[3].replace(" ", "_") or None
-                    # serial = row[7].replace(" ", "_") or None
                     is_telnet = 't' in row[4].lower() and 's' not in row[4].lower()
+                    # device_type = row[9].replace(" ", "_") or None
+                    # serial = row[10].replace(" ", "_") or None
 
                     # remove duplicated hostname
                     if None not in (hostname, host, platform) and host not in result.keys():
@@ -81,13 +81,13 @@ class Bootstrap(object):
                             ],
                             'data': {
                                 'site_code': site_code,
-                                'model': platform,
-                                # 'serial': serial,
                                 'ip': ip,
                                 'mask': mask,
                                 'current_dg': current_dg,
                                 'new_dg': new_dg,
-                                'role': {}
+                                'role': {},
+                                # 'device_type': platform,
+                                # 'serial': serial,
                             }
 
                         }
