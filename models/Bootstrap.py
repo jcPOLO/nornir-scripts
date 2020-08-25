@@ -61,13 +61,14 @@ class Bootstrap(object):
                     site_code = row[0]
                     ip = row[5]
                     mask = row[6]
+                    current_dg = row[7]
+                    new_dg = row[8]
 
                     hostname = row[2] if is_ip(row[2]) else None
                     host = row[1].replace(" ", "_") or None
                     platform = row[3].lower().replace(" ", "_") if row[3].lower().replace(" ", "_") in platforms else None
                     # model = row[3].replace(" ", "_") or None
                     # serial = row[7].replace(" ", "_") or None
-
                     is_telnet = 't' in row[4].lower() and 's' not in row[4].lower()
 
                     # remove duplicated hostname
@@ -84,6 +85,8 @@ class Bootstrap(object):
                                 # 'serial': serial,
                                 'ip': ip,
                                 'mask': mask,
+                                'current_dg': current_dg,
+                                'new_dg': new_dg,
                                 'role': {}
                             }
 

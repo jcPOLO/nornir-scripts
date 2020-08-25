@@ -4,15 +4,16 @@ from models.Template import Template
 
 
 class Menu(object):
-    platforms = ['ios', 'huawei', 'nxos']
+    platforms = ['ios', 'huawei']
     template_files = [
         '',
         'common.j2',
         'snmp.j2',
-        'trunk_description.j2',
         'management.j2',
+        'tacacs_gestred.j2',
+        'default-route.j2',
+        'trunk_description.j2',
         'ssh.j2',
-        'tacacs_gestred.j2'
     ]
 
     def __init__(self) -> None:
@@ -23,6 +24,7 @@ class Menu(object):
             "4": self.template_files[4],
             "5": self.template_files[5],
             "6": self.template_files[6],
+            "7": self.template_files[7],
             "a": self.apply,
             "s": self.show,
             "z": self.clear,
@@ -39,13 +41,20 @@ class Menu(object):
 
         1. Common configuration (local users, logging, line vty config, timeouts, etc.)
         2. SNMP configuration (ACLs, WR and RO communities)
-        3. Description for trunk interfaces
-        4. Management network (mgmt vlan l2 & l3, trunk allowed add)
-        5. SSH configuration.
-        6. Tacacs para GestRED.
+        3. Management network (mgmt vlan l2 & l3, trunk allowed add)
+
+        4. --- DANGER ---- Tacacs vrf GestRED --- DANGER ----
+        5. --- DANGER ------ DEFAULT ROUTE ------ DANGER ----
+
+        -------------------------------------------------------------------------------
+        Other things:
+
+        6. Description for trunk interfaces
+        7. SSH configuration.
+        -------------------------------------------------------------------------------
 
         a. Apply      s. Show template      z. Clear selections             e. Exit
-        
+
         """)
 
     def display_final_choices(self) -> None:
@@ -88,6 +97,7 @@ class Menu(object):
         else:
             print("{0} choices selected are not valid".format(self.final_choices))
 
+    # TODO: Not working. It shows it but then you cannot apply the template selected.
     def show(self) -> None:
         if self.final_choices:
             print(f"Which platform? {self.platforms}")
