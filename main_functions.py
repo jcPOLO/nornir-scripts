@@ -18,8 +18,6 @@ def make_magic(task: Task, templates: str, ini_vars: configparser) -> None:
     backup_config(task, config_vars.get('backups_path', None))
     # if option 2 or 3 is selected
     if 'trunk_description.j2' in templates or 'management.j2' in templates:
-        print(f"{'trunk_description.j2' in templates} \
-              y {'management.j2' in templates}")
         trunk_description(task)
     # apply final template
     config(task, ini_vars)
@@ -55,16 +53,12 @@ def process_data_trunk(data: List) -> List[str]:
     result = []
     for interface in data:
 
-        # if 'vlan' in interface.keys():  # ios has VLAN key, huawei doesnt for
-        #    interface['link'] = interface['vlan']
         try:
             if interface['link'] == 'trunk':  # huawei - display port vlan
                 result.append(interface['port'])
-                print(f"{interface['port']} is trunking")
         except KeyError:
             if interface['status'] == 'trunking':  # ios - show interfaces trunk
                 result.append(interface['port'])
-                print(f"{interface['port']} is trunking")
 
     return result
 
