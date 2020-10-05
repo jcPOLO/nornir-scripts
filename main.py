@@ -2,7 +2,7 @@ from nornir import InitNornir
 from nornir.plugins.functions.text import print_result
 import getpass
 from main_functions import filter_inventory, make_magic
-from models.Menu import Menu
+from models.Menu import Menu, Template
 from models.Bootstrap import Bootstrap
 
 
@@ -32,7 +32,10 @@ def main() -> None:
     menu = Menu()
     t = menu.run()
 
-    templates = t.templates
+    if isinstance(t, Template):
+        templates = t.templates
+    else:
+        templates = 'save_config'
 
     # Python program to show time by perf_counter()
     from time import perf_counter

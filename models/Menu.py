@@ -28,6 +28,7 @@ class Menu(object):
             "a": self.apply,
             "s": self.show,
             "z": self.clear,
+            "w": self.save,
             "e": self.exit,
 
         }
@@ -53,7 +54,9 @@ class Menu(object):
         7. SSH configuration.
         -------------------------------------------------------------------------------
 
-        a. Apply      s. Show template      z. Clear selections             e. Exit
+        a. Apply      s. Show template      z. Clear selections     w. Save config.
+        
+        e. Exit
 
         """)
 
@@ -117,6 +120,16 @@ class Menu(object):
         self.final_choices = []
         self.run()
         print(f'Selected templates cleared.\n')
+
+    def save(self) -> None:
+        self.final_choices = []
+
+        result = input('Are you sure you want to execute a write config? [y]')
+        if result.lower().strip() not in "yes":
+            self.display_menu()
+        else:
+            print(f'Applying write config...\n')
+            return result
 
     def exit(self) -> None:
         self.final_choices = []

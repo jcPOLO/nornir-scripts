@@ -58,6 +58,13 @@ def backup_config(task: Task, path: str = 'backups/') -> None:
         f.write(r)
 
 
+def save_config(task: Task) -> None:
+    if task.host.platform == 'huawei':
+        huawei.save_config(task)
+    if task.host.platform == 'ios' or task.host.platform == 'nxos':
+        ios.save_config(task)
+
+
 def get_interface_description(interfaces: List, task: Task) -> List[Dict[str, str]]:
     r = ''
     result = []

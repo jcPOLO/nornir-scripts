@@ -53,3 +53,8 @@ def get_neighbor(interface: str, task: Task):
                  command_string=f'show cdp nei {interface} det',
                  use_textfsm=True
                  ).result
+
+
+def save_config(task: Task):
+    r = task.run(task=networking.netmiko_save_config).result
+    return r

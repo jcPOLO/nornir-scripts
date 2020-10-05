@@ -40,3 +40,8 @@ def get_neighbor(interface: str, task: Task):
                  command_string=f'dis ldp nei {interface}',
                  use_textfsm=True
                  ).result
+
+
+def save_config(task: Task):
+    r = task.run(task=networking.netmiko_save_config).result
+    return r

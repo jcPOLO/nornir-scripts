@@ -3,7 +3,8 @@ from nornir.core import Nornir, Task
 from nornir.core.filter import F
 from nornir.core.inventory import ConnectionOptions
 from tasks import backup_config, basic_configuration, \
-    get_interface_description, get_interfaces_status
+    get_interface_description, get_interfaces_status, \
+    save_config
 from typing import Dict, List
 import configparser
 
@@ -19,8 +20,11 @@ def make_magic(task: Task, templates: str, ini_vars: configparser) -> None:
     # if option 2 or 3 is selected
     if 'trunk_description.j2' in templates or 'management.j2' in templates:
         trunk_description(task)
-    # apply final template
-    config(task, ini_vars)
+    if 'save_config' in templates:
+        save_config(task)
+    else:
+        # apply final template
+        config(task, ini_vars)
 
 
 def config(task: Task, ini_vars: configparser) -> None:
