@@ -53,46 +53,51 @@ class Bootstrap(object):
             result = {}
 
             with open(self.csv_file, 'r') as csv_file:
-                csv_reader = csv.reader(csv_file)
-                # next(csv_reader)  # The first line is the header
+                csv_reader = csv.DictReader(csv_file)
 
-                for row in csv_reader:
+                fields = 'site_code,host,hostname,is_telnet,platform,ip,mask,new_dg,current_dg'
 
-                    site_code = row[0]
-                    ip = row[5]
-                    mask = row[6]
-                    current_dg = row[7]
-                    new_dg = row[8]
+                wrong_header_fields = list(set(fields.split(',')) - set(csv_reader.fieldnames))
+                if not wrong_header_fields:
+                    for row in csv_reader:
+                        site_code = row['site_code']
+                        ip = row['ip']
+                        mask = row['mask']
+                        current_dg = row['current_dg']
+                        new_dg = row['new_dg']
 
-                    hostname = row[2] if is_ip(row[2]) else None
-                    host = row[1].replace(" ", "_") or None
-                    platform = row[3].lower().replace(" ", "_") if row[3].lower().replace(" ", "_") in platforms else None
-                    is_telnet = 't' in row[4].lower() and 's' not in row[4].lower()
-                    # device_type = row[9].replace(" ", "_") or None
-                    # serial = row[10].replace(" ", "_") or None
+                        hostname = row['hostname'] if is_ip(row['hostname']) else None
+                        host = row['host'].replace(" ", "_") or None
+                        platform = row['platform'].lower().replace(" ", "_") if row['platform'].lower().replace(" ", "_") in platforms else None
+                        is_telnet = 't' in row['is_telnet'].lower() and 's' not in row['is_telnet'].lower()
+                        # device_type = row[9].replace(" ", "_") or None
+                        # serial = row[10].replace(" ", "_") or None
 
-                    # remove duplicated hostname
-                    if None not in (hostname, host, platform) and host not in result.keys():
-                        result[host] = {
-                            'hostname': hostname,
-                            'platform': platform,
-                            'groups': [
-                                'ios_telnet' if is_telnet and platform == 'ios' else platform
-                            ],
-                            'data': {
-                                'site_code': site_code,
-                                'ip': ip,
-                                'mask': mask,
-                                'current_dg': current_dg,
-                                'new_dg': new_dg,
-                                'role': {},
-                                # 'device_type': platform,
-                                # 'serial': serial,
+                        # remove duplicated hostname
+                        if None not in (hostname, host, platform) and host not in result.keys():
+                            result[host] = {
+                                'hostname': hostname,
+                                'platform': platform,
+                                'groups': [
+                                    'ios_telnet' if is_telnet and platform == 'ios' else platform
+                                ],
+                                'data': {
+                                    'site_code': site_code,
+                                    'ip': ip,
+                                    'mask': mask,
+                                    'current_dg': current_dg,
+                                    'new_dg': new_dg,
+                                    'role': {},
+                                    # 'device_type': platform,
+                                    # 'serial': serial,
+                                }
+
                             }
-
-                        }
-                        if is_telnet and platform == 'ios':
-                            result[host]['port'] = 23
+                            if is_telnet and platform == 'ios':
+                                result[host]['port'] = 23
+                else:
+                    print('{} not in csv header'.format(wrong_header_fields))
+                    exit()
 
             return result
         except Exception as e:
