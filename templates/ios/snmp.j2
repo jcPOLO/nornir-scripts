@@ -5,7 +5,7 @@ ip access-list standard 60
  remark Equipos con acceso SNMP rw
  permit host {{ ini_vars['snmp_ip'] }}
  permit host {{ ini_vars['nagios_ip'] }}
- permit 192.168.150.192 0.0.0.27
+ permit 192.168.150.192 0.0.0.31
  deny any
 !
 snmp-server community {{ ini_vars['snmp_w_password'] }} rw 60
