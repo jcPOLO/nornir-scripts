@@ -43,5 +43,5 @@ def get_neighbor(interface: str, task: Task):
 
 
 def save_config(task: Task):
-    r = task.run(task=networking.netmiko_save_config).result
+    r = task.run(task=networking.netmiko_save_config, confirm=True, confirm_response="y").result
     return r
